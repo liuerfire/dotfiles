@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [[ ! -d ~/.config/kitty/kitty-themes ]]; then
+  git clone https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+fi
+
+stow alacritty kitty git nvim rust tmux x11 zsh
+
+# vim
+curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +PlugInstall +qall

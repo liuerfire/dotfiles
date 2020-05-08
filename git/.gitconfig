@@ -1,0 +1,6 @@
+[user]
+	email = liuerfire@gmail.com
+	name = liuerfire
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	excludesfile = ~/.gitignore_global

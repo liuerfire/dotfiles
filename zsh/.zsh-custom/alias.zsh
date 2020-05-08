@@ -1,0 +1,27 @@
+alias ls="exa"
+alias vi='nvim'
+alias vim='nvim'
+alias vimdiff='nvim -d'
+alias cat='bat'
+alias docker-rm-dangling='docker rmi $(docker images -f "dangling=true" -q) -f'
+alias kc='kubectl'
+
+_git_log_medium_format='%C(bold)Commit:%C(reset) %C(green)%H%C(red)%d%n%C(bold)Author:%C(reset) %C(cyan)%an <%ae>%n%C(bold)Date:%C(reset)   %C(blue)%ai (%ar)%C(reset)%n%+B'
+_git_log_oneline_format='%C(green)%h%C(reset) %s%C(red)%d%C(reset)%n'
+_git_log_brief_format='%C(green)%h%C(reset) %s%n%C(blue)(%ar by %an)%C(red)%d%C(reset)%n'
+alias gws='git status --short'
+alias gl='git log --topo-order --pretty=format:"${_git_log_medium_format}"'
+alias gls='git log --topo-order --stat --pretty=format:"${_git_log_medium_format}"'
+alias gld='git log --topo-order --stat --patch --full-diff --pretty=format:"${_git_log_medium_format}"'
+alias glo='git log --topo-order --pretty=format:"${_git_log_oneline_format}"'
+alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_oneline_format}"'
+alias glb='git log --topo-order --pretty=format:"${_git_log_brief_format}"'
+alias glc='git shortlog --summary --numbered'
+alias glS='git log --show-signature'
+
+alias pacman-list-orphans="pacman -Qtdq"
+alias pacman-pkg-info="pacman -Q -i"
+# Removes packages and unneeded dependencies.
+alias pacx="sudo pacman --remove"
+# Removes packages, their configuration, and unneeded dependencies.
+alias pacX="sudo pacman --remove --nosave --recursive"

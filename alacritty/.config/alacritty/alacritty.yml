@@ -1,0 +1,174 @@
+env:
+  TERM: xterm-256color
+
+window:
+#   dimensions:
+#     columns: 400
+#     lines: 200
+
+  # padding:
+  #   x: 10
+  #   y: 10
+
+  dynamic_padding: true
+
+  decorations: full
+
+  startup_mode: Windowed
+
+scrolling:
+  history: 2500
+  multiplier: 3
+
+font:
+  normal:
+    family: Noto Sans Mono
+    style: Regular
+
+  # bold:
+  #   family: Hack
+  #   style: Bold
+  #
+  # italic:
+  #   family: Hack
+  #   style: Italic
+  #
+  # bold_italic:
+  #   family: Hack
+  #   style: Bold Italic
+
+  offset:
+    x: 0
+    y: 0
+
+  glyph_offset:
+    x: 0
+    y: 0
+
+draw_bold_text_with_bright_colors: true
+
+schemes:
+  papercolor: &light
+    primary:
+      background: '0xEEEEEE'
+      foreground: '0x4D4D4C'
+
+    # Normal colors
+    normal:
+      black:   '0xEDEDED'
+      red:     '0xD7005F'
+      green:   '0x718C00'
+      yellow:  '0xD75F00'
+      blue:    '0x4271AE'
+      magenta: '0x8959A8'
+      cyan:    '0x3E999F'
+      white:   '0x4D4D4C'
+
+    # Bright colors
+    bright:
+      black:   '0x969694'
+      red:     '0xD7005F'
+      green:   '0x718C00'
+      yellow:  '0xD75F00'
+      blue:    '0x4271AE'
+      magenta: '0x8959A8'
+      cyan:    '0x3E999F'
+      white:   '0xF5F5F5'
+
+  onedark: &dark
+    # Default colors
+    primary:
+      background: '0x1e2127'
+      foreground: '0xabb2bf'
+
+    cursor:
+     text: '#000000'
+     cursor: '#ffffff'
+
+    # Normal colors
+    normal:
+      black:   '0x1e2127'
+      red:     '0xe06c75'
+      green:   '0x98c379'
+      yellow:  '0xd19a66'
+      blue:    '0x61afef'
+      magenta: '0xc678dd'
+      cyan:    '0x56b6c2'
+      white:   '0xabb2bf'
+
+    # Bright colors
+    bright:
+      black:   '0x5c6370'
+      red:     '0xe06c75'
+      green:   '0x98c379'
+      yellow:  '0xd19a66'
+      blue:    '0x61afef'
+      magenta: '0xc678dd'
+      cyan:    '0x56b6c2'
+      white:   '0xffffff'
+
+colors: *dark
+
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0
+  color: '0xffffff'
+
+background_opacity: 1.0
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  save_to_clipboard: false
+
+dynamic_title: true
+
+cursor:
+  style: Block
+  unfocused_hollow: true
+
+live_config_reload: true
+
+working_directory: None
+
+alt_send_esc: true
+
+debug:
+  render_timer: false
+  persistent_logging: false
+  log_level: Warn
+  print_events: false
+  ref_test: false
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+  hide_when_typing: true
+
+  url:
+    launcher:
+      program: xdg-open
+
+    modifiers: None
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
+
+key_bindings:
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: Add,      mods: Control,       action: IncreaseFontSize }
+  - { key: Subtract, mods: Control,       action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: Return,   mods: Alt,           action: ToggleFullscreen }
+  - { key: Paste,                         action: Paste            }
+  - { key: Copy,                          action: Copy             }
+  - { key: L,        mods: Control,       action: ClearLogNotice   }
+  - { key: L,        mods: Control,       chars: "\x0c"            }
+  - { key: PageUp,   mods: Shift,         action: ScrollPageUp,   mode: ~Alt }
+  - { key: PageDown, mods: Shift,         action: ScrollPageDown, mode: ~Alt }
+  - { key: Home,     mods: Shift,         action: ScrollToTop,    mode: ~Alt }
+  - { key: End,      mods: Shift,         action: ScrollToBottom, mode: ~Alt }
