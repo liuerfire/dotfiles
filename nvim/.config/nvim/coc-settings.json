@@ -1,11 +1,18 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": ["c", "cpp", "go", "markdown", "python", "rust"],
+
+  "explorer.icon.enableNerdfont": true,
+  "explorer.width": 30,
+
   "list.maxHeight": 20,
   "list.insertMappings": {
     "<C-c>": "do:exit"
   },
   "list.normalMappings": {
-    "<C-c>": "do:exit"
+    "<C-c>": "do:exit",
+    "v": "action:vsplit"
   },
+
   "languageserver": {
     "ccls": {
       "command": "ccls",
@@ -24,7 +31,6 @@
        "ignoredRootPaths": ["~"]
     }
   },
-  "coc.preferences.formatOnSaveFiletypes": ["c", "cpp", "go", "markdown", "python", "rust"],
 
   "go.goplsOptions": {
     "completeUnimported": true
@@ -36,6 +42,6 @@
   "python.linting.flake8Enabled": true,
   "python.jediEnabled": false,
 
-  "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
-  "rust-analyzer.inlayHints.chainingHints": false
+  "rust-analyzer.inlayHints.chainingHints": false,
+  "rust-analyzer.serverPath": "/usr/bin/rust-analyzer"
 }

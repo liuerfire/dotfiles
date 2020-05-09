@@ -13,8 +13,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-theme'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'kaicataldo/material.vim'
-Plug 'cseelus/vim-colors-lucid'
+Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
+let g:gruvbox_contrast_dark = 1
+let g:gruvbox_contrast_light = 1
+Plug 'ryanoasis/vim-devicons'
 
 " Effective
 Plug 'tpope/vim-repeat'
@@ -25,10 +28,9 @@ Plug 'tomtom/tcomment_vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/gv.vim'
 
 " Tool
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'svermeulen/vim-easyclip'
 Plug 'godlygeek/tabular'
 Plug 'majutsushi/tagbar'
@@ -38,9 +40,7 @@ Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 
 " Fzf
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 " Pane
 Plug 'roman/golden-ratio'
@@ -62,7 +62,7 @@ let mapleader = " "
 
 " general settings {{{
 set termguicolors
-set nu
+set relativenumber
 set ignorecase
 set smartcase
 set whichwrap+=<,>,h,l
@@ -88,31 +88,43 @@ set inccommand=split
 set clipboard=unnamed
 " }}}
 
-colorscheme dracula
+colorscheme gruvbox
 
+" autocmd {{{
 autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
 autocmd FileType go setlocal shiftwidth=4 noexpandtab tabstop=4 shiftwidth=4
+" }}}
 
 " my maps {{{
-nmap <leader>ei :e ~/.config/nvim/init.vim<cr>
-nmap <leader>el :e ~/.config/nvim/vimrc_local<cr>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
 
 nnoremap j gj
 nnoremap k gk
-
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <A-b> <S-Left>
+cnoremap <C-f> <Right>
+cnoremap <A-f> <S-Right>
+cnoremap <C-e> <End>
+cnoremap <C-d> <Del>
+cnoremap <C-h> <BS>
+cnoremap <C-t> <C-R>=expand("%:p:h") . "/" <CR>
 
 tnoremap <Esc> <C-\><C-n>
 nnoremap <leader>tv :vs term://zsh<CR>
 nnoremap <leader>tn :new term://zsh<CR>
 " }}}
 
+" clipboard {{{
 if !has('mac')
   " I don't know why the relative path is not available
   let g:python3_host_prog="/usr/bin/python"
@@ -131,48 +143,41 @@ if !has('mac')
 else
   let g:python3_host_prog="python"
 endif
-
-" vim-clap {{{
-nnoremap <leader>af :Clap files ++finder=fd --type f --hidden --exclude .git --no-ignore<CR>
-nnoremap <leader>ff :Clap files<CR>
-nnoremap <leader>bb :Clap buffers<CR>
-nnoremap <leader>rg :Clap grep ++query=<cword><CR>
-
-command! -nargs=* -bang Rg :Clap grep <args>
-command! -nargs=* -bang Colors :Clap colors <args>
-command! -nargs=* -bang Commands :Clap command <args>
-command! -nargs=* -bang Maps :Clap maps <args>
 " }}}
 
-" fzf-vim {{{
-" command! -nargs=? -complete=dir AF
-"   \ call fzf#run(fzf#wrap(fzf#vim#with_preview({
-"   \   'source': 'fd --type f --hidden --follow --exclude .git --no-ignore . '.expand(<q-args>)
-"   \ })))
-"
-" function! RipgrepFzf(query, fullscreen)
-"   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-"   let initial_command = printf(command_fmt, shellescape(a:query))
-"   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(), a:fullscreen)
-" endfunction
-"
-" command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
-" command! -bang -nargs=? -complete=dir Files
-"   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-"
-" nnoremap <leader>af :AF<CR>
-" nnoremap <leader>ff :Files<CR>
-" nnoremap <leader>rg :Rg <C-R><C-W><CR>
-" nnoremap <leader>bb :Buffers<CR>
-"
-" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+" leaderf {{{
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseMemoryCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PreviewResult = {'File': 1, 'Rg': 1}
+let g:Lf_CommandMap = {'<C-]>': ['<C-V>']}
+let g:Lf_ShowHidden = 1
+let g:Lf_AutoReisze = 1
+let g:Lf_WildIgnore = {
+  \ 'dir': ['.svn','.git','.hg','node_modules'],
+  \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+  \ }
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>af :<C-U><C-R>=printf("Leaderf file --no-ignore %s", "")<CR><CR>
+noremap <leader>bb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>rg :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<CR><CR>
+
+command! -nargs=* -bang Rg :Leaderf rg <args>
+command! -nargs=0 -bang Colors :LeaderfColorscheme
+command! -nargs=* -bang Commands :LeaderfCommand
 " }}}
 
-"vim-airline settings {{{
+"vim-airline {{{
+let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 " }}}
 
-" Rainbow settings {{{
+" Rainbow {{{
 let g:rainbow_active = 1
 " }}}
 
@@ -206,8 +211,8 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-call coc#add_extension('coc-json', 'coc-lists', 'coc-python', 'coc-go',
-                     \ 'coc-rust-analyzer', 'coc-snippets', 'coc-git',
+call coc#add_extension('coc-explorer', 'coc-json', 'coc-lists', 'coc-python',
+                     \ 'coc-go', 'coc-rust-analyzer', 'coc-snippets', 'coc-git',
                      \ 'coc-highlight', 'coc-pairs', 'coc-prettier')
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -238,12 +243,22 @@ nmap <silent> gxd :call CocAction('jumpDefinition', 'new')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gn <Plug>(coc-rename)
+nmap <silent> <leader>rn <Plug>(coc-rename)
 
-nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+nnoremap <silent> <leader>cd :<C-u>CocList -A diagnostics<CR>
+nnoremap <silent> <leader>co :<C-u>CocList -A outline -kind<CR>
+nnoremap <silent> <leader>ee :<C-u>CocCommand explorer<CR>
+
+command! -nargs=0 Maps :CocList maps
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 Format :call CocAction('format')
+
+autocmd FileType go command! -nargs=? GoAddTags :CocCommand go.tags.add <args>
+autocmd FileType go command! -nargs=? GoDeleteags :CocCommand go.tags.remove <args>
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -252,22 +267,13 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call CocAction('runCommand', 'editor.action.organizeImport')
-
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " }}}
 
-" local vimrc {{{
-let s:local_vimrc = $HOME."/.config/nvim/vimrc_local"
-if filereadable(s:local_vimrc)
-  execute 'source' s:local_vimrc
+" vimrc for a project {{{
+let s:p_vimrc = ".vim/vimrc"
+if filereadable(s:p_vimrc)
+  execute 'source' s:p_vimrc
 endif
 " }}}
