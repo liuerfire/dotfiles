@@ -1,8 +1,11 @@
 [user]
 	email = liuerfire@gmail.com
 	name = liuerfire
+	signingkey = C1F4EEE16FB4E84C
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = ~/.gitignore_global
 [merge]
 	tool = vimdiff
+[commit]
+	gpgsign = true
