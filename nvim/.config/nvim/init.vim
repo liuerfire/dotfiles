@@ -35,7 +35,7 @@ Plug 'svermeulen/vim-easyclip'
 Plug 'godlygeek/tabular'
 Plug 'majutsushi/tagbar'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'romainl/vim-cool/'
+Plug 'romainl/vim-cool'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 
