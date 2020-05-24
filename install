@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-if [[ ! -d ~/.config/kitty/kitty-themes ]]; then
-  git clone https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+if [[ ! -d ~/.config/alacritty ]]; then
+  mkdir ~/.config/alacritty
 fi
 
-stow alacritty kitty git nvim rust tmux x11 zsh
+if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+stow alacritty git nvim rust tmux x11 zsh
 
 # vim
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \

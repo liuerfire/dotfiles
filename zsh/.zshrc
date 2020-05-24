@@ -23,35 +23,34 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # }}
 
 # plugins {{
-if [[ ! -d ~/.zsh/powerlevel10k ]]; then
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/powerlevel10k
+if [[ ! -d ~/.zsh/plugins/powerlevel10k ]]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/plugins/powerlevel10k
 fi
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+source ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 
-if [[ ! -d ~/.zsh/fast-syntax-highlighting ]]; then
-  git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting ~/.zsh/fast-syntax-highlighting
+if [[ ! -d ~/.zsh/plugins/fast-syntax-highlighting ]]; then
+  git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting ~/.zsh/plugins/fast-syntax-highlighting
 fi
-source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
-if [[ ! -d ~/.zsh/zsh-z ]]; then
-  git clone --depth=1 https://github.com/agkozak/zsh-z.git ~/.zsh/zsh-z
+if [[ ! -d ~/.zsh/plugins/zsh-z ]]; then
+  git clone --depth=1 https://github.com/agkozak/zsh-z.git ~/.zsh/plugins/zsh-z
 fi
-source ~/.zsh/zsh-z/zsh-z.plugin.zsh
-alias j='z'
+source ~/.zsh/plugins/zsh-z/zsh-z.plugin.zsh
 
-if [[ ! -d ~/.zsh/zsh-completions ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-completions.git ~/.zsh/zsh-completions
+if [[ ! -d ~/.zsh/plugins/zsh-completions ]]; then
+  git clone --depth=1 https://github.com/zsh-users/zsh-completions.git ~/.zsh/plugins/zsh-completions
 fi
-fpath=(~/.zsh/zsh-completions/src $fpath)
+fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 
-if [[ ! -d ~/.zsh/zsh-autosuggestions ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+if [[ ! -d ~/.zsh/plugins/zsh-autosuggestions ]]; then
+  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
 fi
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # }}
 
 function update-zsh-plugins {
-  cd ~/.zsh
+  cd ~/.zsh/plugins
   find . -mindepth 1 -maxdepth 1 -type d -exec git --git-dir={}/.git --work-tree=$PWD/{} pull -v \;
 }
 
@@ -72,7 +71,7 @@ if [[ -s ~/.fzf.zsh ]]; then
 fi
 # }}
 
-for file in ~/.zsh-custom/*.zsh; do
+for file in ~/.zsh/*.zsh; do
   source "$file"
 done
 [ -s ~/.zsh_private ] && source ~/.zsh_private

@@ -1,4 +1,5 @@
-alias ls="exa"
+alias ls='exa'
+alias j='z'
 alias vi='nvim'
 alias vim='nvim'
 alias vimdiff='nvim -d'
@@ -19,9 +20,9 @@ alias glb='git log --topo-order --pretty=format:"${_git_log_brief_format}"'
 alias glc='git shortlog --summary --numbered'
 alias glS='git log --show-signature'
 
-alias pacman-list-orphans="pacman -Qtdq"
-alias pacman-pkg-info="pacman -Q -i"
+alias pacman-list-orphans='pacman -Qtdq'
+alias pacman-pkg-info='pacman -Q -i'
 # Removes packages and unneeded dependencies.
-alias pacx="sudo pacman --remove"
+alias pacx='sudo pacman --remove'
 # Removes packages, their configuration, and unneeded dependencies.
-alias pacX="sudo pacman --remove --nosave --recursive"
+alias pacX='sudo pacman --remove --nosave --recursive'

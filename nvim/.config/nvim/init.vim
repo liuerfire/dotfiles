@@ -12,11 +12,8 @@ call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-theme'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox'
-let g:gruvbox_contrast_dark = 1
-let g:gruvbox_contrast_light = 1
 Plug 'ryanoasis/vim-devicons'
 
 " Effective
@@ -33,7 +30,7 @@ Plug 'junegunn/gv.vim'
 " Tool
 Plug 'svermeulen/vim-easyclip'
 Plug 'godlygeek/tabular'
-Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'romainl/vim-cool'
 Plug 'luochen1990/rainbow'
@@ -63,6 +60,7 @@ let mapleader = " "
 " general settings {{{
 set termguicolors
 set relativenumber
+set number
 set ignorecase
 set smartcase
 set whichwrap+=<,>,h,l
@@ -82,12 +80,14 @@ set scrolloff=5
 set nowrap
 set cursorline
 set list
-set listchars=tab:‣\ ,eol:↵,trail:·,extends:↷,precedes:↶
+set listchars=tab:‣\ ,eol:¬,trail:·,extends:↷,precedes:↶
 set showbreak=↪
 set inccommand=split
 set clipboard=unnamed
 " }}}
 
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_light = 'hard'
 colorscheme gruvbox
 
 " autocmd {{{
@@ -166,6 +166,7 @@ let g:Lf_ShortcutF = "<leader>ff"
 noremap <leader>af :<C-U><C-R>=printf("Leaderf file --no-ignore %s", "")<CR><CR>
 noremap <leader>bb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>rg :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<CR><CR>
+xnoremap <leader>rg :<C-U><C-R>=printf("Leaderf rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
 
 command! -nargs=* -bang Rg :Leaderf rg <args>
 command! -nargs=0 -bang Colors :LeaderfColorscheme
@@ -266,9 +267,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " }}}
 
 " vimrc for a project {{{
