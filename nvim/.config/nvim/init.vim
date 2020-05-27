@@ -86,16 +86,17 @@ set inccommand=split
 set clipboard=unnamed
 " }}}
 
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_contrast_light = 'hard'
-colorscheme gruvbox
-
 " autocmd {{{
 autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
 autocmd FileType go setlocal shiftwidth=4 noexpandtab tabstop=4 shiftwidth=4
+" }}}
+
+" command {{{
+command! -nargs=0 EditInit :e ~/.config/nvim/init.vim
+command! -nargs=0 EditLocal :e ~/.config/nvim/local.vim
 " }}}
 
 " my maps {{{
@@ -189,7 +190,6 @@ let g:strip_whitespace_on_save = 1
 
 " golden ratio {{{
 let g:golden_ratio_autocommand = 0
-map <C-g> <Plug>(golden_ratio_resize)
 " }}}
 
 " easyclip {{{
@@ -267,6 +267,13 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+" }}}
+
+" vimrc for localhost {{{
+let s:local_vimrc = expand("<sfile>:p:h").'/local.vim'
+if filereadable(s:local_vimrc)
+  execute 'source' s:local_vimrc
+endif
 " }}}
 
 " vimrc for a project {{{
