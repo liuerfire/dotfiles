@@ -12,6 +12,7 @@ call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-theme'
+Plug 'rafalbromirski/vim-aurora'
 Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
