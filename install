@@ -8,7 +8,7 @@ if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-stow alacritty git nvim rust tmux x11 zsh
+stow alacritty git nvim tmux x11 zsh
 
 # vim
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \

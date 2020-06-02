@@ -14,7 +14,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'liuchengxu/space-vim-theme'
 Plug 'rafalbromirski/vim-aurora'
 Plug 'rakr/vim-one'
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'ryanoasis/vim-devicons'
 
 " Effective
@@ -175,8 +176,13 @@ command! -nargs=0 -bang Colors :LeaderfColorscheme
 command! -nargs=* -bang Commands :LeaderfCommand
 " }}}
 
+" Vista {{{
+let g:vista_default_executive = 'coc'
+" }}}
+
 "vim-airline {{{
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#hunks#coc_git = 1
 let g:airline_powerline_fonts = 1
 " }}}
 
