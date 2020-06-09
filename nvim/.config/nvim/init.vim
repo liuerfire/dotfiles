@@ -37,6 +37,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'romainl/vim-cool'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-sleuth'
 
 " Fzf
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -69,12 +70,7 @@ set whichwrap+=<,>,h,l
 set magic
 set nobackup
 set noswapfile
-set cindent
 set foldnestmax=1
-set expandtab
-set smarttab
-set shiftwidth=2
-set tabstop=2
 set mouse=n
 set splitright
 set splitbelow
@@ -93,7 +89,6 @@ autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
-autocmd FileType go setlocal shiftwidth=4 noexpandtab tabstop=4 shiftwidth=4
 " }}}
 
 " command {{{
