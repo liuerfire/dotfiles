@@ -11,3 +11,6 @@
 	gpgsign = true
 [pull]
 	ff = only
+[include]
+	path = ~/.gitconfig_private
+
