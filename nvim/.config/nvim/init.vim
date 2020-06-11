@@ -18,18 +18,17 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'ryanoasis/vim-devicons'
 
-" Effective
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
-Plug 'tomtom/tcomment_vim'
-
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 
 " Tool
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-unimpaired'
+Plug 'easymotion/vim-easymotion'
+Plug 'tomtom/tcomment_vim'
 Plug 'svermeulen/vim-easyclip'
 Plug 'godlygeek/tabular'
 Plug 'liuchengxu/vista.vim'
@@ -37,7 +36,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'romainl/vim-cool'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'tpope/vim-sleuth'
+Plug 'dyng/ctrlsf.vim'
 
 " Fzf
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
