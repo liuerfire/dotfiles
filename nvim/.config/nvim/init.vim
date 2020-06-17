@@ -150,7 +150,7 @@ let g:Lf_UseVersionControlTool = 0
 let g:Lf_IgnoreCurrentBufferName = 1
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewResult = {'File': 1, 'Rg': 1}
+let g:Lf_PreviewResult = {'Rg': 1}
 let g:Lf_CommandMap = {'<C-]>': ['<C-V>']}
 let g:Lf_ShowHidden = 1
 let g:Lf_AutoReisze = 1
@@ -168,10 +168,6 @@ xnoremap <leader>rg :<C-U><C-R>=printf("Leaderf rg -F -e %s ", leaderf#Rg#visual
 command! -nargs=* -bang Rg :Leaderf rg <args>
 command! -nargs=0 -bang Colors :LeaderfColorscheme
 command! -nargs=* -bang Commands :LeaderfCommand
-" }}}
-
-" Vista {{{
-let g:vista_default_executive = 'coc'
 " }}}
 
 "vim-airline {{{
