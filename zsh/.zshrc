@@ -33,13 +33,6 @@ if [[ ! -d ~/.zsh/plugins/zsh-completions ]]; then
 fi
 fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 
-autoload -U compinit && compinit
-
-if [[ ! -d ~/.zsh/plugins/fzf-tab ]]; then
-  git clone --depth=1 https://github.com/Aloxaf/fzf-tab.git ~/.zsh/plugins/fzf-tab
-fi
-source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
-
 if [[ ! -d ~/.zsh/plugins/zsh-autosuggestions ]]; then
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
 fi
@@ -73,9 +66,12 @@ if [[ -s ~/.fzf.zsh ]]; then
 fi
 # }}
 
+autoload -U compinit && compinit
+
 for file in ~/.zsh/*.zsh; do
   source "$file"
 done
+
 [ -s ~/.zsh_private ] && source ~/.zsh_private
 
 typeset -gU cdpath fpath mailpath path
