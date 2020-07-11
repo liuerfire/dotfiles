@@ -42,6 +42,11 @@ if [[ ! -d ~/.zsh/plugins/zsh-syntax-highlighting ]]; then
   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/plugins/zsh-syntax-highlighting
 fi
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+
+if [[ ! -d ~/.zsh/plugins/z ]]; then
+  git clone --depth 1 https://github.com/rupa/z ~/.zsh/plugins/z
+fi
+source ~/.zsh/plugins/z/z.sh
 # }}
 
 function update-zsh-plugins {
@@ -75,8 +80,6 @@ done
 [ -s ~/.zsh_private ] && source ~/.zsh_private
 
 typeset -gU cdpath fpath mailpath path
-
-eval "$(zoxide init zsh)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

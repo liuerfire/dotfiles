@@ -3,7 +3,7 @@
 	name = liuerfire
 	signingkey = C1F4EEE16FB4E84C
 [core]
-	pager = delta
+	pager = delta --diff-so-fancy
 	excludesfile = ~/.gitignore_global
 [interactive]
 	diffFilter = delta --color-only

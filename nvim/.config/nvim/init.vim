@@ -16,6 +16,8 @@ Plug 'rafalbromirski/vim-aurora'
 Plug 'rakr/vim-one'
 Plug 'gruvbox-community/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'cormacrelf/vim-colors-github'
+Plug 'jaredgorski/spacecamp'
 Plug 'ryanoasis/vim-devicons'
 
 " Git
@@ -211,7 +213,7 @@ set signcolumn=yes
 
 call coc#add_extension('coc-explorer', 'coc-json', 'coc-lists', 'coc-python',
                      \ 'coc-go', 'coc-rust-analyzer', 'coc-snippets', 'coc-git',
-                     \ 'coc-highlight', 'coc-prettier', 'coc-clangd')
+                     \ 'coc-highlight', 'coc-prettier')
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
