@@ -7,11 +7,10 @@
   ],
 
   "explorer.icon.enableNerdfont": true,
-  "explorer.width": 30,
   "explorer.openAction.strategy": "previousBuffer",
   "explorer.previewAction.onHover": false,
 
-  "list.maxHeight": 20,
+  "list.maxHeight": 25,
   "list.insertMappings": {
     "<C-c>": "do:exit"
   },

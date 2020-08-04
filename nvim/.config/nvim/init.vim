@@ -1,23 +1,14 @@
 " vim: set foldmarker={{{,}}} foldmethod=marker:
 
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
-endif
-
 " plugins {{{
 call plug#begin()
 " Appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'liuchengxu/space-vim-theme'
-Plug 'rafalbromirski/vim-aurora'
 Plug 'rakr/vim-one'
+Plug 'rafalbromirski/vim-aurora'
 Plug 'gruvbox-community/gruvbox'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'cormacrelf/vim-colors-github'
-Plug 'jaredgorski/spacecamp'
+Plug 'bignimbus/pop-punk.vim'
 Plug 'ryanoasis/vim-devicons'
 
 " Git
@@ -38,13 +29,11 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'romainl/vim-cool'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'dyng/ctrlsf.vim'
+Plug 'roman/golden-ratio'
 
 " Fzf
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-
-" Pane
-Plug 'roman/golden-ratio'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -144,32 +133,40 @@ else
 endif
 " }}}
 
-" leaderf {{{
-let g:Lf_HideHelp = 1
-let g:Lf_UseCache = 0
-let g:Lf_UseMemoryCache = 0
-let g:Lf_UseVersionControlTool = 0
-let g:Lf_IgnoreCurrentBufferName = 1
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewResult = {'Rg': 1}
-let g:Lf_CommandMap = {'<C-]>': ['<C-V>']}
-let g:Lf_ShowHidden = 1
-let g:Lf_AutoReisze = 1
-let g:Lf_WildIgnore = {
-  \ 'dir': ['.svn','.git','.hg','node_modules'],
-  \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-  \ }
+" fzf {{{
+let $FZF_DEFAULT_OPTS .= ' --inline-info'
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
-let g:Lf_ShortcutF = "<leader>ff"
-noremap <leader>af :<C-U><C-R>=printf("Leaderf file --no-ignore %s", "")<CR><CR>
-noremap <leader>bb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <leader>rg :<C-U><C-R>=printf("Leaderf rg -e %s ", expand("<cword>"))<CR><CR>
-xnoremap <leader>rg :<C-U><C-R>=printf("Leaderf rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
-command! -nargs=* -bang Rg :Leaderf rg <args>
-command! -nargs=0 -bang Colors :LeaderfColorscheme
-command! -nargs=* -bang Commands :LeaderfCommand
+command! -nargs=? -complete=dir AF
+  \ call fzf#run(fzf#wrap(fzf#vim#with_preview({
+  \   'source': 'fd --type f --hidden --follow --exclude .git --no-ignore . '.expand(<q-args>)
+  \ })))
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.(len(<q-args>) > 0 ? <q-args> : '""'), 1,
+  \   fzf#vim#with_preview('right', 'ctrl-/'), <bang>0)
+
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>af :AF<CR>
+nnoremap <leader>rg :Rg <C-R><C-W><CR>
+nnoremap <leader>bb :Buffers<CR>
+xnoremap <leader>rg y:Rg <C-R>"<CR>
 " }}}
 
 "vim-airline {{{
@@ -249,7 +246,6 @@ nnoremap <silent> <leader>cd :<C-u>CocList -A diagnostics<CR>
 nnoremap <silent> <leader>co :<C-u>CocList -A outline -kind<CR>
 nnoremap <silent> <leader>ee :<C-u>CocCommand explorer<CR>
 
-command! -nargs=0 Maps :CocList maps
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 Format :call CocAction('format')
 

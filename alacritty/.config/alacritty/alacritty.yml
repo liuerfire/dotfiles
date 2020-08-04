@@ -3,14 +3,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  TERM: xterm-256color
 
 #window:
   # Window dimensions (changes require restart)
@@ -103,12 +103,12 @@ font:
     # style: Regular
 
   # Bold font face
-  bold:
+  # bold:
     # Font family
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Noto Sans Mono
+    # family: Noto Sans Mono
 
     # The `style` can be specified to pick a specific face.
     # style: Bold
@@ -173,15 +173,13 @@ font:
 schemes:
   dark: &dark
     primary:
-      background: '#292C3E'
+      background: '#000000'
       foreground: '#ffffff'
 
-    # Cursor colors
     cursor:
-     text: '#2c2c2c'
-     cursor: '#d9d9d9'
+      text: '#000000'
+      cursor: '#ffffff'
 
-    # Normal colors
     normal:
       black:   '#0d0d0d'
       red:     '#FF301B'
@@ -192,7 +190,6 @@ schemes:
       cyan:    '#21DEEF'
       white:   '#EBEBEB'
 
-    # Bright colors
     bright:
       black:   '#6D7070'
       red:     '#FF4352'
@@ -208,7 +205,10 @@ schemes:
       foreground: '#000000'
       background: '#ffffff'
 
-    # Normal colors
+    cursor:
+      text: '#ffffff'
+      cursor: '#000000'
+
     normal:
       black:   '#131613'
       red:     '#e06c75'
@@ -219,7 +219,6 @@ schemes:
       cyan:    '#56b6c2'
       white:   '#abb2bf'
 
-    # Bright colors
     bright:
       black:   '#e2e2e2'
       red:     '#e06c75'
@@ -322,7 +321,7 @@ shell:
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true
 
-#mouse:
+mouse:
   # Click settings
   #
   # The `double_click` and `triple_click` settings control the time
@@ -332,7 +331,7 @@ shell:
   #triple_click: { threshold: 300 }
 
   # If this is `true`, the cursor is temporarily hidden when typing.
-  #hide_when_typing: false
+  hide_when_typing: true
 
   #url:
     # URL launcher
