@@ -42,6 +42,11 @@ if [[ ! -d ~/.zsh/plugins/z ]]; then
   git clone --depth 1 https://github.com/rupa/z ~/.zsh/plugins/z
 fi
 source ~/.zsh/plugins/z/z.sh
+
+if [[ ! -d ~/.zsh/plugins/autoenv ]]; then
+  git clone --depth 1 https://github.com/inishchith/autoenv.git ~/.zsh/plugins/autoenv
+fi
+source ~/.zsh/plugins/autoenv/activate.sh
 # }}
 
 function update-zsh-plugins {
