@@ -30,6 +30,7 @@ Plug 'romainl/vim-cool'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
+Plug 'voldikss/vim-floaterm'
 
 " Fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -108,8 +109,6 @@ cnoremap <C-h> <BS>
 cnoremap <C-t> <C-R>=expand("%:p:h") . "/" <CR>
 
 tnoremap <Esc> <C-\><C-n>
-nnoremap <leader>tv :vs term://zsh<CR>
-nnoremap <leader>tn :new term://zsh<CR>
 " }}}
 
 " clipboard {{{
@@ -186,6 +185,14 @@ let g:strip_whitespace_on_save = 1
 
 " golden ratio {{{
 let g:golden_ratio_autocommand = 0
+" }}}
+
+" floaterm {{{
+let g:floaterm_wintype = 'normal'
+let g:floaterm_height = 0.3
+let g:floaterm_width = 0.3
+let g:floaterm_keymap_toggle = '<C-\>'
+nnoremap <leader>tv :FloatermNew --position=right<CR>
 " }}}
 
 " easyclip {{{
