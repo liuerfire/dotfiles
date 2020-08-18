@@ -25,8 +25,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'svermeulen/vim-easyclip'
 Plug 'godlygeek/tabular'
 Plug 'liuchengxu/vista.vim'
+Plug 'romainl/vim-cool'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'junegunn/vim-slash'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
@@ -134,7 +134,6 @@ endif
 
 " fzf {{{
 let $FZF_DEFAULT_OPTS .= ' --inline-info'
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
