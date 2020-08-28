@@ -18,7 +18,6 @@ Plug 'junegunn/gv.vim'
 " Tool
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-unimpaired'
 Plug 'easymotion/vim-easymotion'
 Plug 'tomtom/tcomment_vim'
