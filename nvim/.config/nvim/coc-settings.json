@@ -1,13 +1,18 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
     "go",
+    "json",
+    "jsonc",
     "markdown",
     "python",
     "rust"
   ],
 
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.separateRelatedInformationAsDiagnostics": true,
+
   "explorer.icon.enableNerdfont": true,
-  "explorer.openAction.strategy": "previousBuffer",
+  "explorer.openAction.strategy": "sourceWindow",
   "explorer.previewAction.onHover": false,
 
   "list.maxHeight": 25,
@@ -37,7 +42,6 @@
   },
 
   "python.formatting.provider": "black",
-  "python.formatting.blackArgs": ["-S", "-l 80"],
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.jediEnabled": false,

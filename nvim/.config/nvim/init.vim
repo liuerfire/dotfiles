@@ -7,8 +7,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rakr/vim-one'
 Plug 'rafalbromirski/vim-aurora'
+Plug 'liuchengxu/space-vim-theme'
 Plug 'gruvbox-community/gruvbox'
-Plug 'bignimbus/pop-punk.vim'
+Plug 'tomasiser/vim-code-dark'
+Plug 'YorickPeterse/vim-paper'
 Plug 'ryanoasis/vim-devicons'
 
 " Git
@@ -30,6 +32,7 @@ Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
 Plug 'voldikss/vim-floaterm'
+Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 
 " Fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -89,6 +92,10 @@ command! -nargs=0 EditLocal :e ~/.config/nvim/local.vim
 " my maps {{{
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
 
 nnoremap j gj
 nnoremap k gk
@@ -197,6 +204,16 @@ nnoremap <leader>tv :FloatermNew --position=right<CR>
 nmap M m$
 " }}}
 
+" easymotion {{{
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+nmap s <Plug>(easymotion-overwin-f)
+" }}}
+
+" indentLine {{{
+let g:indentLine_showFirstIndentLevel = 1
+" }}}
+
 " coc.nvim {{{
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -215,7 +232,7 @@ set signcolumn=yes
 
 call coc#add_extension('coc-explorer', 'coc-json', 'coc-lists', 'coc-python',
                      \ 'coc-go', 'coc-rust-analyzer', 'coc-snippets', 'coc-git',
-                     \ 'coc-highlight', 'coc-prettier')
+                     \ 'coc-highlight', 'coc-prettier', 'coc-floaterm', 'coc-yaml')
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -249,13 +266,14 @@ nmap <silent> <leader>rn <Plug>(coc-rename)
 
 nnoremap <silent> <leader>cd :<C-u>CocList -A diagnostics<CR>
 nnoremap <silent> <leader>co :<C-u>CocList -A outline -kind<CR>
+nnoremap <silent> <leader>tt :<C-u>CocList -A floaterm <CR>
 nnoremap <silent> <leader>ee :<C-u>CocCommand explorer<CR>
 
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 Format :call CocAction('format')
 
 autocmd FileType go command! -nargs=? GoAddTags :CocCommand go.tags.add <args>
-autocmd FileType go command! -nargs=? GoDeleteags :CocCommand go.tags.remove <args>
+autocmd FileType go command! -nargs=? GoRemoveTags :CocCommand go.tags.remove <args>
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
