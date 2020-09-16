@@ -1,5 +1,6 @@
 alias ls='exa'
 alias j='z'
+alias v='nvim $(fzf)'
 alias vi='nvim'
 alias vim='nvim'
 alias vimdiff='nvim -d'

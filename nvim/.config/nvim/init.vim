@@ -3,14 +3,11 @@
 " plugins {{{
 call plug#begin()
 " Appearance
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'rakr/vim-one'
-Plug 'rafalbromirski/vim-aurora'
-Plug 'liuchengxu/space-vim-theme'
-Plug 'gruvbox-community/gruvbox'
 Plug 'tomasiser/vim-code-dark'
 Plug 'YorickPeterse/vim-paper'
+Plug 'haishanh/night-owl.vim'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ryanoasis/vim-devicons'
 
 " Git
@@ -20,13 +17,10 @@ Plug 'junegunn/gv.vim'
 " Tool
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'easymotion/vim-easymotion'
-Plug 'tomtom/tcomment_vim'
-Plug 'svermeulen/vim-easyclip'
+Plug 'tpope/vim-commentary'
+Plug 'justinmk/vim-sneak'
 Plug 'godlygeek/tabular'
 Plug 'liuchengxu/vista.vim'
-Plug 'romainl/vim-cool'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
@@ -44,8 +38,6 @@ Plug 'honza/vim-snippets'
 
 " Language
 Plug 'sheerun/vim-polyglot'
-Plug 'rust-lang/rust.vim'
-Plug 'jparise/vim-graphql'
 Plug 'nathangrigg/vim-beancount'
 
 call plug#end()
@@ -74,7 +66,6 @@ set list
 set listchars=tab:‣\ ,eol:¬,trail:·,extends:↷,precedes:↶
 set showbreak=↪
 set inccommand=split
-set clipboard=unnamed
 " }}}
 
 " autocmd {{{
@@ -90,6 +81,17 @@ command! -nargs=0 EditLocal :e ~/.config/nvim/local.vim
 " }}}
 
 " my maps {{{
+" copy from https://github.com/junegunn/dotfiles/blob/master/vimrc
+function! s:map_change_option(...)
+  let [key, opt] = a:000[0:1]
+  let op = get(a:, 3, 'set '.opt.'!')
+  execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
+endfunction
+
+call s:map_change_option('w', 'wrap')
+call s:map_change_option('b', 'background',
+    \ 'let &background = &background == "dark" ? "light" : "dark"<bar>redraw')
+
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-b> <Left>
@@ -103,6 +105,21 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+nnoremap <silent> <leader>n :nohl<CR>
+
+nnoremap [q :cprev<cr>zz
+nnoremap ]q :cnext<cr>zz
+nnoremap [l :lprev<cr>zz
+nnoremap ]l :lnext<cr>zz
+
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
+
+xnoremap <leader>y "+y
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+xnoremap <leader>p "+p
+inoremap <C-v> <C-o>"+]p
 
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
@@ -117,25 +134,37 @@ cnoremap <C-t> <C-R>=expand("%:p:h") . "/" <CR>
 tnoremap <Esc> <C-\><C-n>
 " }}}
 
-" clipboard {{{
+" python3 host {{{
 if !has('mac')
   " I don't know why the relative path is not available
   let g:python3_host_prog="/usr/bin/python"
-  let g:clipboard = {
-    \   'name': 'xclip_neovim_clipboard',
-    \   'copy': {
-    \      '+': 'xclip -selection clipboard',
-    \      '*': 'xclip -selection clipboard',
-    \    },
-    \   'paste': {
-    \      '+': 'xclip -selection clipboard -o',
-    \      '*': 'xclip -selection clipboard -o',
-    \   },
-    \   'cache_enabled': 1,
-    \ }
 else
   let g:python3_host_prog="python"
 endif
+" }}}
+
+" statusline {{{
+function! s:statusline_expr()
+  let mod = "%{&modified ? ' []' : !&modifiable ? '[x] ' : ''}"
+  let ro  = "%{&readonly ? ' []' : ''}"
+  let coc = " %{coc#status()} %{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}"
+  let sep = ' %= '
+  let fileinfo  = ' %{WebDevIconsGetFileFormatSymbol()} %{&fenc}'
+  let pos = ' [%l/%L:%c%V]'
+  return ' %{WebDevIconsGetFileTypeSymbol()} %f%<'.mod.ro.coc.sep.fileinfo.pos
+endfunction
+
+let &statusline = s:statusline_expr()
+" }}}
+
+" colorizer {{{
+lua require'colorizer'.setup()
+" }}}
+
+" indentLine {{{
+autocmd! User indentLine doautocmd indentLine Syntax
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#616161'
 " }}}
 
 " fzf {{{
@@ -173,12 +202,6 @@ nnoremap <leader>bb :Buffers<CR>
 xnoremap <leader>rg y:Rg <C-R>"<CR>
 " }}}
 
-"vim-airline {{{
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#hunks#coc_git = 1
-let g:airline_powerline_fonts = 1
-" }}}
-
 " Rainbow {{{
 let g:rainbow_active = 1
 " }}}
@@ -196,18 +219,12 @@ let g:golden_ratio_autocommand = 0
 let g:floaterm_wintype = 'normal'
 let g:floaterm_height = 0.3
 let g:floaterm_width = 0.3
-let g:floaterm_keymap_toggle = '<C-\>'
+let g:floaterm_keymap_toggle = '<M-=>'
 nnoremap <leader>tv :FloatermNew --position=right<CR>
 " }}}
 
-" easyclip {{{
-nmap M m$
-" }}}
-
-" easymotion {{{
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase = 1
-nmap s <Plug>(easymotion-overwin-f)
+" sneak {{{
+let g:sneak#label = 1
 " }}}
 
 " indentLine {{{
@@ -230,9 +247,18 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-call coc#add_extension('coc-explorer', 'coc-json', 'coc-lists', 'coc-python',
-                     \ 'coc-go', 'coc-rust-analyzer', 'coc-snippets', 'coc-git',
-                     \ 'coc-highlight', 'coc-prettier', 'coc-floaterm', 'coc-yaml')
+let g:coc_global_extensions = [
+        \ 'coc-explorer',
+        \ 'coc-json',
+        \ 'coc-lists',
+        \ 'coc-python',
+        \ 'coc-go',
+        \ 'coc-rust-analyzer',
+        \ 'coc-snippets',
+        \ 'coc-git',
+        \ 'coc-prettier',
+        \ 'coc-yaml'
+        \ ]
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -263,10 +289,10 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
+nmap <silent> <leader>gc <Plug>(coc-git-commit)
 
 nnoremap <silent> <leader>cd :<C-u>CocList -A diagnostics<CR>
 nnoremap <silent> <leader>co :<C-u>CocList -A outline -kind<CR>
-nnoremap <silent> <leader>tt :<C-u>CocList -A floaterm <CR>
 nnoremap <silent> <leader>ee :<C-u>CocCommand explorer<CR>
 
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
@@ -274,8 +300,6 @@ command! -nargs=0 Format :call CocAction('format')
 
 autocmd FileType go command! -nargs=? GoAddTags :CocCommand go.tags.add <args>
 autocmd FileType go command! -nargs=? GoRemoveTags :CocCommand go.tags.remove <args>
-
-autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()

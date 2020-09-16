@@ -15,7 +15,9 @@
   "explorer.openAction.strategy": "sourceWindow",
   "explorer.previewAction.onHover": false,
 
-  "list.maxHeight": 25,
+  "git.showCommitInFloating": true,
+
+  "list.height": 25,
   "list.insertMappings": {
     "<C-c>": "do:exit"
   },

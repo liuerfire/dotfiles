@@ -18,3 +18,5 @@
 [include]
 	path = ~/.gitconfig_private
 
+[mergetool]
+	keepBackup = false
