@@ -66,6 +66,8 @@ set list
 set listchars=tab:‣\ ,eol:¬,trail:·,extends:↷,precedes:↶
 set showbreak=↪
 set inccommand=split
+" Make diff great again: https://vimways.org/2018/the-power-of-diff/
+set diffopt+=algorithm:patience,indent-heuristic
 " }}}
 
 " autocmd {{{
