@@ -23,30 +23,10 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # }}
 
 # plugins {{
-if [[ ! -d ~/.zsh/plugins/powerlevel10k ]]; then
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/plugins/powerlevel10k
-fi
-source ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
-
-if [[ ! -d ~/.zsh/plugins/zsh-completions ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-completions.git ~/.zsh/plugins/zsh-completions
-fi
-fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
-
 if [[ ! -d ~/.zsh/plugins/zsh-autosuggestions ]]; then
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
 fi
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-if [[ ! -d ~/.zsh/plugins/z ]]; then
-  git clone --depth 1 https://github.com/rupa/z ~/.zsh/plugins/z
-fi
-source ~/.zsh/plugins/z/z.sh
-
-if [[ ! -d ~/.zsh/plugins/autoenv ]]; then
-  git clone --depth 1 https://github.com/inishchith/autoenv.git ~/.zsh/plugins/autoenv
-fi
-source ~/.zsh/plugins/autoenv/activate.sh
 # }}
 
 function update-zsh-plugins {
@@ -81,5 +61,5 @@ done
 
 typeset -gU cdpath fpath mailpath path
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"

@@ -6,7 +6,7 @@ call plug#begin()
 Plug 'rakr/vim-one'
 Plug 'tomasiser/vim-code-dark'
 Plug 'YorickPeterse/vim-paper'
-Plug 'haishanh/night-owl.vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ryanoasis/vim-devicons'
 
@@ -253,7 +253,7 @@ let g:coc_global_extensions = [
         \ 'coc-explorer',
         \ 'coc-json',
         \ 'coc-lists',
-        \ 'coc-python',
+        \ 'coc-pyright',
         \ 'coc-go',
         \ 'coc-rust-analyzer',
         \ 'coc-snippets',
