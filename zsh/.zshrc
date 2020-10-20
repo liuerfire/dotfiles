@@ -23,6 +23,11 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # }}
 
 # plugins {{
+if [[ ! -d ~/.zsh/plugins/powerlevel10k ]]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/plugins/powerlevel10k
+fi
+source ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
+
 if [[ ! -d ~/.zsh/plugins/zsh-autosuggestions ]]; then
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
 fi
@@ -61,5 +66,7 @@ done
 
 typeset -gU cdpath fpath mailpath path
 
-eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
