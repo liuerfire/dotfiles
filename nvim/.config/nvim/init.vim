@@ -25,7 +25,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
-Plug 'voldikss/vim-floaterm'
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 
 " Fzf
@@ -215,14 +214,6 @@ let g:strip_whitespace_on_save = 1
 
 " golden ratio {{{
 let g:golden_ratio_autocommand = 0
-" }}}
-
-" floaterm {{{
-let g:floaterm_wintype = 'normal'
-let g:floaterm_height = 0.3
-let g:floaterm_width = 0.3
-let g:floaterm_keymap_toggle = '<M-=>'
-nnoremap <leader>tv :FloatermNew --position=right<CR>
 " }}}
 
 " sneak {{{
