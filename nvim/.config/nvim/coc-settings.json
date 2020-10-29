@@ -39,11 +39,8 @@
     }
   },
 
-  "go.goplsOptions": {
-    "completeUnimported": true
-  },
-
   "python.formatting.provider": "black",
 
-  "rust-analyzer.inlayHints.chainingHints": false
+  "rust-analyzer.inlayHints.chainingHints": false,
+  "rust-analyzer.serverPath": "~/bin/rust-analyzer"
 }

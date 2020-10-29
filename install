@@ -1,16 +1,69 @@
 #!/usr/bin/env bash
 
-if [[ ! -d ~/.config/alacritty ]]; then
-  mkdir ~/.config/alacritty
+set -eo pipefail
+
+packages=( \
+  bat \
+  clash \
+  exa \
+  fd \
+  ripgrep \
+  zoxide \
+  git-delta-git \
+  docker \
+  docker-compose \
+  skopeo \
+  go \
+  neovim \
+  python-neovim \
+  xclip \
+  wireshark-qt \
+  man-db \
+  stow \
+  nodejs \
+  npm \
+  socat \
+  openbsd-netcat \
+  tcpdump \
+  tmux \
+  strace \
+  telegram-desktop \
+  vagrant \
+  lsof \
+  zsh \
+  zsh-completions \
+  keepassxc \
+  alacritty \
+  kitty \
+  bind \
+  sshpass \
+  oath-toolkit \
+  cmake \
+)
+
+echo "Installing packages..."
+for name in ${packages[@]}; do
+  if ! pacman -Qi $name &> /dev/null; then
+    yay -S --noconfirm $name
+  fi
+done
+
+mkdir -p ~/.config/alacritty
+mkdir -p ~/.config/kitty
+mkdir -p ~/.config/nvim
+mkdir -p ~/.zsh/plugins
+mkdir -p ~/workspace
+mkdir -p ~/code
+
+stow alacritty git nvim tmux zsh kitty
+
+if [[ ! -s ~/.config/nvim/autoload/plug.vim ]]; then
+  curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  nvim +PlugInstall +qall
 fi
 
-if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [[ ! -d ~/.fzf ]]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --all
 fi
-
-stow alacritty git nvim tmux x11 zsh
-
-# vim
-curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim +PlugInstall +qall

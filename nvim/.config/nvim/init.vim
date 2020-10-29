@@ -3,10 +3,12 @@
 " plugins {{{
 call plug#begin()
 " Appearance
-Plug 'rakr/vim-one'
 Plug 'tomasiser/vim-code-dark'
-Plug 'YorickPeterse/vim-paper'
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'arzg/vim-colors-xcode'
+Plug 'itchyny/landscape.vim'
+Plug 'robertmeta/nofrils'
+Plug 'humanoid-colors/vim-humanoid-colorscheme'
+Plug 'sainnhe/gruvbox-material'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ryanoasis/vim-devicons'
 
@@ -18,14 +20,9 @@ Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'justinmk/vim-sneak'
-Plug 'godlygeek/tabular'
 Plug 'liuchengxu/vista.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'luochen1990/rainbow'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'roman/golden-ratio'
-Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 
 " Fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -45,21 +42,25 @@ call plug#end()
 let mapleader = " "
 
 " general settings {{{
+set hidden
+set updatetime=300
+set shortmess+=c
 set termguicolors
 set relativenumber
 set number
 set ignorecase
 set smartcase
-set whichwrap+=<,>,h,l
-set magic
 set nobackup
 set noswapfile
+set softtabstop=4
+set tabstop=4
+set shiftwidth=4
+set expandtab
 set foldnestmax=1
 set mouse=n
 set splitright
 set splitbelow
 set scrolloff=5
-set nowrap
 set cursorline
 set list
 set listchars=tab:‣\ ,eol:¬,trail:·,extends:↷,precedes:↶
@@ -74,6 +75,7 @@ autocmd BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
+autocmd FileType go setlocal noexpandtab
 " }}}
 
 " command {{{
@@ -91,7 +93,7 @@ endfunction
 
 call s:map_change_option('w', 'wrap')
 call s:map_change_option('b', 'background',
-    \ 'let &background = &background == "dark" ? "light" : "dark"<bar>redraw')
+  \ 'let &background = &background == "dark" ? "light" : "dark"<bar>redraw')
 
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
@@ -120,7 +122,6 @@ xnoremap <leader>y "+y
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 xnoremap <leader>p "+p
-inoremap <C-v> <C-o>"+]p
 
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
@@ -136,12 +137,7 @@ tnoremap <Esc> <C-\><C-n>
 " }}}
 
 " python3 host {{{
-if !has('mac')
-  " I don't know why the relative path is not available
-  let g:python3_host_prog="/usr/bin/python"
-else
-  let g:python3_host_prog="python"
-endif
+let g:python3_host_prog="/usr/bin/python3"
 " }}}
 
 " statusline {{{
@@ -162,17 +158,11 @@ let &statusline = s:statusline_expr()
 lua require'colorizer'.setup()
 " }}}
 
-" indentLine {{{
-autocmd! User indentLine doautocmd indentLine Syntax
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#616161'
-" }}}
-
 " fzf {{{
 let $FZF_DEFAULT_OPTS .= ' --inline-info'
 
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
+  \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
   \ 'hl':      ['fg', 'Comment'],
   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
@@ -186,6 +176,9 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
+let g:fzf_layout = {'window': {'width': 0.7, 'height': 0.8}}
+let g:fzf_preview_window = ['up:40%', 'ctrl-/']
+
 command! -nargs=? -complete=dir AF
   \ call fzf#run(fzf#wrap(fzf#vim#with_preview({
   \   'source': 'fd --type f --hidden --follow --exclude .git --no-ignore . '.expand(<q-args>)
@@ -194,7 +187,7 @@ command! -nargs=? -complete=dir AF
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always '.(len(<q-args>) > 0 ? <q-args> : '""'), 1,
-  \   fzf#vim#with_preview('right', 'ctrl-/'), <bang>0)
+  \   fzf#vim#with_preview('up', 'ctrl-/'), <bang>0)
 
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>af :AF<CR>
@@ -203,62 +196,30 @@ nnoremap <leader>bb :Buffers<CR>
 xnoremap <leader>rg y:Rg <C-R>"<CR>
 " }}}
 
-" Rainbow {{{
-let g:rainbow_active = 1
-" }}}
-
 " better-whitespace {{{
 let g:strip_whitespace_confirm = 0
 let g:strip_whitespace_on_save = 1
 " }}}
 
-" golden ratio {{{
-let g:golden_ratio_autocommand = 0
-" }}}
-
-" sneak {{{
-let g:sneak#label = 1
-" }}}
-
-" indentLine {{{
-let g:indentLine_showFirstIndentLevel = 1
-" }}}
-
 " coc.nvim {{{
-" if hidden is not set, TextEdit might fail.
-set hidden
-
-" Better display for messages
-set cmdheight=2
-
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
 let g:coc_global_extensions = [
-        \ 'coc-explorer',
-        \ 'coc-json',
-        \ 'coc-lists',
-        \ 'coc-pyright',
-        \ 'coc-go',
-        \ 'coc-rust-analyzer',
-        \ 'coc-snippets',
-        \ 'coc-git',
-        \ 'coc-prettier',
-        \ 'coc-yaml'
-        \ ]
+  \ 'coc-explorer',
+  \ 'coc-json',
+  \ 'coc-lists',
+  \ 'coc-pyright',
+  \ 'coc-go',
+  \ 'coc-rust-analyzer',
+  \ 'coc-snippets',
+  \ 'coc-git',
+  \ 'coc-prettier'
+  \ ]
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort

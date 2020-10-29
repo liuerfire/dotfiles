@@ -12,14 +12,14 @@ env:
   # available, otherwise `xterm-256color` is used.
   TERM: xterm-256color
 
-#window:
+window:
   # Window dimensions (changes require restart)
   #
   # Specified in number of columns/lines, not pixels.
   # If both are `0`, this setting is ignored.
-  #dimensions:
-  #  columns: 0
-  #  lines: 0
+  dimensions:
+    columns: 800
+    lines: 600
 
   # Window position (changes require restart)
   #
@@ -295,12 +295,11 @@ selection:
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-# shell:
-#   program: /bin/bash
-#   args:
-#     - -l
-#     - -c
-#     - "tmux attach || tmux"
+shell:
+  program: /bin/bash
+  args:
+  - -c
+  - "tmux attach || tmux"
 
 # Startup directory
 #
