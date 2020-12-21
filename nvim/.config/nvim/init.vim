@@ -5,10 +5,8 @@ call plug#begin()
 " Appearance
 Plug 'tomasiser/vim-code-dark'
 Plug 'arzg/vim-colors-xcode'
-Plug 'itchyny/landscape.vim'
-Plug 'robertmeta/nofrils'
-Plug 'humanoid-colors/vim-humanoid-colorscheme'
-Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
+Plug 'rakr/vim-one'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ryanoasis/vim-devicons'
 
@@ -23,6 +21,7 @@ Plug 'tpope/vim-commentary'
 Plug 'liuchengxu/vista.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'preservim/nerdtree'
 
 " Fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -201,9 +200,12 @@ let g:strip_whitespace_confirm = 0
 let g:strip_whitespace_on_save = 1
 " }}}
 
+" NERDTree {{{
+nnoremap <leader>ee :NERDTreeToggle<CR>
+" }}}
+
 " coc.nvim {{{
 let g:coc_global_extensions = [
-  \ 'coc-explorer',
   \ 'coc-json',
   \ 'coc-lists',
   \ 'coc-pyright',
@@ -239,6 +241,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gvd :call CocAction('jumpDefinition', 'vnew')<CR>
 nmap <silent> gxd :call CocAction('jumpDefinition', 'new')<CR>
+nmap <silent> gtd :call CocAction('jumpDefinition', 'tabnew')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -247,7 +250,6 @@ nmap <silent> <leader>gc <Plug>(coc-git-commit)
 
 nnoremap <silent> <leader>cd :<C-u>CocList -A diagnostics<CR>
 nnoremap <silent> <leader>co :<C-u>CocList -A outline -kind<CR>
-nnoremap <silent> <leader>ee :<C-u>CocCommand explorer<CR>
 
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 Format :call CocAction('format')

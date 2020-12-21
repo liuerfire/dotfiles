@@ -3,17 +3,12 @@
     "go",
     "json",
     "jsonc",
-    "markdown",
     "python",
     "rust"
   ],
 
   "diagnostic.checkCurrentLine": true,
   "diagnostic.separateRelatedInformationAsDiagnostics": true,
-
-  "explorer.icon.enableNerdfont": true,
-  "explorer.openAction.strategy": "sourceWindow",
-  "explorer.previewAction.onHover": false,
 
   "git.showCommitInFloating": true,
 
@@ -41,6 +36,7 @@
 
   "python.formatting.provider": "black",
 
-  "rust-analyzer.inlayHints.chainingHints": false,
-  "rust-analyzer.serverPath": "~/bin/rust-analyzer"
+  "rust-analyzer.server.path": "~/bin/rust-analyzer",
+  "rust-analyzer.inlayHints.enable": false,
+  "rust-analyzer.checkOnSave.enable": false
 }
