@@ -6,7 +6,7 @@ if exists('syntax_on')
   syntax reset
 endif
 
-highlight Normal gui=none guifg=#ffffff guibg=#1e1e1e
+highlight Normal gui=none guifg=#ffffff guibg=#232627
 highlight Comment gui=none guifg=#767676
 highlight Constant gui=none guifg=#87afff
 highlight String gui=none guifg=#ce9178
@@ -83,7 +83,7 @@ highlight CursorColumn gui=none guibg=#262626
 highlight LineNr guifg=#5f5f00 guibg=bg
 highlight MatchParen guibg=#4e4e4e
 highlight Pmenu gui=none guifg=#b2b2b2 guibg=#2d2d2d
-highlight PmenuSel gui=none guifg=#121212 guibg=#666666
+highlight PmenuSel gui=none guifg=#dfdfe0 guibg=#0f5bca
 highlight PmenuSbar gui=none guifg=#121212 guibg=#808080
 highlight PmenuThumb gui=none guifg=#121212 guibg=#4e4e4e
 highlight Search gui=reverse guifg=#dfaf00 guibg=#303030

@@ -60,7 +60,6 @@ set mouse=n
 set splitright
 set splitbelow
 set scrolloff=5
-set cursorline
 set list
 set listchars=tab:‣\ ,eol:¬,trail:·,extends:↷,precedes:↶
 set showbreak=↪
@@ -131,8 +130,6 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cnoremap <C-h> <BS>
 cnoremap <C-t> <C-R>=expand("%:p:h") . "/" <CR>
-
-tnoremap <Esc> <C-\><C-n>
 " }}}
 
 " python3 host {{{
