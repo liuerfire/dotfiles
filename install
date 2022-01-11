@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+packages=( \
+  1password \
+  bash-completion \
+  bat \
+  bear \
+  bind \
+  chromium \
+  clang \
+  clash \
+  cmake \
+  docker \
+  docker-compose \
+  exa \
+  fcitx5 \
+  fcitx5-configtool \
+  fcitx5-gtk \
+  fcitx5-material-color \
+  fcitx5-pinyin-moegirl-rime \
+  fcitx5-pinyin-zhwiki-rime \
+  fcitx5-qt \
+  fcitx5-rime \
+  fd \
+  firefox \
+  flatpak \
+  fzf \
+  git-delta \
+  go \
+  gopls \
+  helm \
+  hugo \
+  inetutils \
+  jdk-openjdk \
+  kde-graphics-meta \
+  kitty \
+  kubectx \
+  libreoffice-still-zh-cn \
+  man-db \
+  mpv \
+  mtr \
+  neovim \
+  networkmanager-openvpn \
+  nodejs \
+  noto-fonts-cjk \
+  noto-fonts-emoji \
+  noto-fonts-extra \
+  npm \
+  oath-toolkit \
+  obs-studio \
+  openbsd-netcat \
+  openssh \
+  openvpn \
+  p7zip \
+  python-pynvim \
+  rime-emoji \
+  ripgrep \
+  skopeo \
+  sof-firmware \
+  sshpass \
+  starship \
+  stow \
+  strace \
+  tcpdump \
+  telegram-desktop \
+  tmux \
+  ttf-fira-code \
+  ttf-iosevka-nerd \
+  ttf-sarasa-gothic \
+  unzip \
+  vagrant \
+  visual-studio-code-bin \
+  wezterm \
+  wireshark-qt \
+  wl-clipboard \
+  xclip \
+  xorg-xrandr \
+  xorg-xwininfo \
+  yarn \
+  zoxide \
+  zsh \
+  zsh-completions \
+)
+
+echo "Installing packages..."
+for name in ${packages[@]}; do
+  if ! pacman -Qi $name &> /dev/null; then
+    yay -S --noconfirm $name
+  fi
+done
+
+mkdir -p ~/.config/alacritty
+mkdir -p ~/.config/kitty
+mkdir -p ~/.config/nvim
+mkdir -p ~/.zsh/plugins
+mkdir -p ~/workspace
+mkdir -p ~/code
+
+stow alacritty git nvim tmux zsh kitty
