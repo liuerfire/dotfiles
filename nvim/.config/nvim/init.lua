@@ -23,7 +23,7 @@ require('packer').startup(function(use)
   use 'sainnhe/edge'
   use 'ajgrf/parchment'
   use 'pbrisbin/vim-colors-off'
-  use 'stefanvanburen/rams.vim'
+  use "rebelot/kanagawa.nvim"
   use 'norcalli/nvim-colorizer.lua'
   use 'kyazdani42/nvim-web-devicons'
 
@@ -123,7 +123,7 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- Get rid of annoying ex keybind
-vim.api.nvim_set_keymap('', 'Q', '<Nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('', 'Q', '<Nop>', default_opts)
 
 map('n', '<leader>n', ':nohl<CR>', default_opts)
 map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })

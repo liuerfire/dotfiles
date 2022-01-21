@@ -4,14 +4,18 @@ set -eo pipefail
 
 packages=( \
   1password \
+  ansible \
   bash-completion \
   bat \
+  bcc \
+  bcc-tools \
   bear \
   bind \
   chromium \
   clang \
   clash \
   cmake \
+  dnsmasq \
   docker \
   docker-compose \
   exa \
@@ -38,6 +42,8 @@ packages=( \
   kitty \
   kubectx \
   libreoffice-still-zh-cn \
+  linux-headers \
+  linux-tools \
   man-db \
   mpv \
   mtr \
@@ -54,6 +60,7 @@ packages=( \
   openssh \
   openvpn \
   p7zip \
+  python-bcc \
   python-pynvim \
   rime-emoji \
   ripgrep \
@@ -71,6 +78,10 @@ packages=( \
   ttf-sarasa-gothic \
   unzip \
   vagrant \
+  virtualbox \
+  virtualbox-guest-iso \
+  virtualbox-host-modules-arch \
+  virtualbox \
   visual-studio-code-bin \
   wezterm \
   wireshark-qt \
@@ -79,6 +90,7 @@ packages=( \
   xorg-xrandr \
   xorg-xwininfo \
   yarn \
+  youtube-dl \
   zoxide \
   zsh \
   zsh-completions \
