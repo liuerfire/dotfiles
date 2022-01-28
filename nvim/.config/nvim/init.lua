@@ -34,6 +34,7 @@ require('packer').startup(function(use)
   use 'editorconfig/editorconfig-vim'
   use 'ntpeters/vim-better-whitespace'
   use 'lukas-reineke/indent-blankline.nvim'
+  use 'nvim-lualine/lualine.nvim'
 
   use 'nathangrigg/vim-beancount'
   use 'google/vim-jsonnet'
@@ -42,6 +43,7 @@ require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
+      'j-hui/fidget.nvim',
       {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
     }
   }
@@ -65,13 +67,6 @@ require('packer').startup(function(use)
       'hrsh7th/vim-vsnip',
       'rafamadriz/friendly-snippets',
     },
-  }
-
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = {
-      'arkav/lualine-lsp-progress',
-    }
   }
 
 end)
@@ -267,7 +262,7 @@ nvim_lsp.pyright.setup {
   capabilities = capabilities,
   flags = {
     debounce_text_changes = 150,
-  }
+  },
 }
 
 nvim_lsp.rust_analyzer.setup {
@@ -363,6 +358,8 @@ cmp.setup {
   },
 }
 
+require('fidget').setup()
+
 local lualine = require('lualine')
 
 local colors = {
@@ -390,7 +387,6 @@ lualine.setup {
       },
     lualine_c = {
       {'filename', path = 1},
-      'lsp_progress',
     },
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {
