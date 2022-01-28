@@ -61,6 +61,8 @@ packages=( \
   openvpn \
   p7zip \
   python-bcc \
+  python-black \
+  python-isort \
   python-pynvim \
   rime-emoji \
   ripgrep \
