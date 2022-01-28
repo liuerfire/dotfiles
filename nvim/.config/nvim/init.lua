@@ -256,45 +256,86 @@ local on_attach = function(client, bufnr)
   cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
-nvim_lsp.pyright.setup {
-  cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/python/node_modules/.bin/pyright-langserver', "--stdio"},
-  on_attach = on_attach,
-  capabilities = capabilities,
-  flags = {
-    debounce_text_changes = 150,
-  },
-}
+local lsp_installer_servers = require('nvim-lsp-installer.servers')
 
-nvim_lsp.rust_analyzer.setup {
-  cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/rust/rust-analyzer'},
-  on_attach = on_attach,
-  capabilities = capabilities,
-  flags = {
-    debounce_text_changes = 150,
-  },
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = {
-        allFeatures = true,
-      },
-    },
-  },
-}
-
-local servers = { 'clangd', 'gopls' }
-
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
+for _, name in pairs({"clangd", "efm", "gopls", "rust_analyzer", "pyright"}) do
+  local server_available, server = lsp_installer_servers.get_server(name)
+  if server_available then
+    server:on_ready(function ()
+      if server.name == "clangd" then
+        server:setup({
+          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/clangd/clangd/bin/clangd'},
+          on_attach = on_attach,
+          capabilities = capabilities,
+          flags = {
+            debounce_text_changes = 150,
+          },
+        })
+      end
+      if server.name == "efm" then
+        server:setup({
+          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/efm/efm-langserver'},
+          init_options = {
+            documentFormatting = true,
+          },
+          filetypes = { 'python' },
+          settings = {
+            languages = {
+              python = {
+                { formatCommand = "black -S -", formatStdin = true },
+                { formatCommand = "isort -", formatStdin = true },
+              },
+            },
+          },
+        })
+      end
+      if server.name == "gopls" then
+        server:setup({
+          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/go/gopls'},
+          on_attach = on_attach,
+          capabilities = capabilities,
+          flags = {
+            debounce_text_changes = 150,
+          },
+        })
+      end
+      if server.name == "rust_analyzer" then
+        server:setup({
+          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/rust/rust-analyzer'},
+          on_attach = on_attach,
+          capabilities = capabilities,
+          flags = {
+            debounce_text_changes = 150,
+          },
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+              },
+            },
+          },
+        })
+      end
+      if server.name == "pyright" then
+        server:setup({
+          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/python/node_modules/.bin/pyright-langserver', "--stdio"},
+          on_attach = on_attach,
+          capabilities = capabilities,
+          flags = {
+            debounce_text_changes = 150,
+          },
+        })
+      end
+    end)
+    if not server:is_installed() then
+      print("Installing " .. name)
+      server:install()
+    end
+  end
 end
 
 cmd [[
-  autocmd BufWritePre *.go,*.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+  autocmd BufWritePre *.go,*.rs,*.py lua vim.lsp.buf.formatting_sync(nil, 1000)
 ]]
 
 local cmp = require('cmp')
