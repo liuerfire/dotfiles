@@ -34,7 +34,6 @@ require('packer').startup(function(use)
   use 'editorconfig/editorconfig-vim'
   use 'ntpeters/vim-better-whitespace'
   use 'lukas-reineke/indent-blankline.nvim'
-  use 'nvim-lualine/lualine.nvim'
 
   use 'nathangrigg/vim-beancount'
   use 'google/vim-jsonnet'
@@ -145,22 +144,8 @@ g.strip_whitespace_on_save = 1
 
 require('colorizer').setup()
 
-g.nvim_tree_disable_window_picker = 1
-g.nvim_tree_indent_markers = 1
-cmd [[
-let g:nvim_tree_icons = {
-    \ 'git': {
-    \   'unstaged': "!",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "?",
-    \   'deleted': "",
-    \   'ignored': "◌"
-    \   },
-    \ }
-]]
 require('nvim-tree').setup()
+
 map('n', '<leader>ee', ':NvimTreeToggle<CR>', default_opts)
 
 require('indent_blankline').setup{
@@ -400,52 +385,6 @@ cmp.setup {
 }
 
 require('fidget').setup()
-
-local lualine = require('lualine')
-
-local colors = {
-  bg = '#000000',
-  fg = '#ffffff',
-}
-
-lualine.setup {
-  options = {
-    icons_enabled = true,
-    theme = {
-      normal = {c = {fg = colors.fg, bg = colors.bg}},
-      inactive = {c = {fg = colors.fg, bg = colors.bg}},
-    },
-    component_separators = {left = ' ', right = ' '},
-    section_separators = {left = ' ', right = ' '},
-    disabled_filetypes = {},
-    always_divide_middle = true,
-  },
-  sections = {
-    lualine_a = {{'mode', color = {fg = colors.fg, bg = colors.bg}}},
-    lualine_b = {
-        {'branch', color = {fg = colors.fg, bg = colors.bg}},
-        {'diagnostics', sources = {'nvim_diagnostic'}},
-      },
-    lualine_c = {
-      {'filename', path = 1},
-    },
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {
-      {'progress', color = {fg = colors.fg, bg = colors.bg}},
-    },
-    lualine_z = {{'location', color = {fg = colors.fg, bg = colors.bg}}},
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-  tabline = {},
-  extensions = {}
-}
 
 if vim.fn.filereadable(vim.fn.stdpath 'config' .. '/lua/local.lua') == 1 then
   require('local')
