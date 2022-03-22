@@ -243,7 +243,7 @@ end
 
 local lsp_installer_servers = require('nvim-lsp-installer.servers')
 
-for _, name in pairs({"clangd", "efm", "gopls", "rust_analyzer", "pyright"}) do
+for _, name in pairs({"clangd", "gopls", "rust_analyzer", "pyright"}) do
   local server_available, server = lsp_installer_servers.get_server(name)
   if server_available then
     server:on_ready(function ()
@@ -254,23 +254,6 @@ for _, name in pairs({"clangd", "efm", "gopls", "rust_analyzer", "pyright"}) do
           capabilities = capabilities,
           flags = {
             debounce_text_changes = 150,
-          },
-        })
-      end
-      if server.name == "efm" then
-        server:setup({
-          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/efm/efm-langserver'},
-          init_options = {
-            documentFormatting = true,
-          },
-          filetypes = { 'python' },
-          settings = {
-            languages = {
-              python = {
-                { formatCommand = "black -S -", formatStdin = true },
-                { formatCommand = "isort -", formatStdin = true },
-              },
-            },
           },
         })
       end
