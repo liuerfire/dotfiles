@@ -21,9 +21,8 @@ require('packer').startup(function(use)
 
   use 'liuerfire/vim-code-dark'
   use 'sainnhe/edge'
-  use 'ajgrf/parchment'
-  use 'pbrisbin/vim-colors-off'
-  use "rebelot/kanagawa.nvim"
+  use 'eemed/sitruuna.vim'
+  use 'Mofiqul/adwaita.nvim'
   use 'norcalli/nvim-colorizer.lua'
   use 'kyazdani42/nvim-web-devicons'
 
@@ -34,6 +33,7 @@ require('packer').startup(function(use)
   use 'editorconfig/editorconfig-vim'
   use 'ntpeters/vim-better-whitespace'
   use 'lukas-reineke/indent-blankline.nvim'
+  use 'junegunn/vim-easy-align'
 
   use 'nathangrigg/vim-beancount'
   use 'google/vim-jsonnet'
