@@ -31,7 +31,6 @@ require('packer').startup(function(use)
   use 'kyazdani42/nvim-tree.lua'
   use 'machakann/vim-sandwich'
   use 'editorconfig/editorconfig-vim'
-  use 'ntpeters/vim-better-whitespace'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'junegunn/vim-easy-align'
 
@@ -50,7 +49,7 @@ require('packer').startup(function(use)
   use {
     'neovim/nvim-lspconfig',
     requires = {
-      'williamboman/nvim-lsp-installer',
+      "williamboman/nvim-lsp-installer",
       'folke/trouble.nvim',
       "ray-x/lsp_signature.nvim",
     },
@@ -85,6 +84,7 @@ opt.showbreak='↪'
 opt.hidden = true
 opt.lazyredraw = true
 opt.inccommand = 'split'
+opt.laststatus = 3
 
 opt.expandtab = true
 opt.shiftwidth = 2
@@ -139,9 +139,6 @@ map('x', '<leader>p', '"+p', default_opts)
 map('v', '<leader>y', '"+y', default_opts)
 map('n', 'Y', 'y$', { noremap = true })
 
-g.strip_whitespace_confirm = 0
-g.strip_whitespace_on_save = 1
-
 require('colorizer').setup()
 
 require('nvim-tree').setup()
@@ -187,123 +184,49 @@ map('n', '<leader>rg', [[<cmd>lua require('telescope.builtin').grep_string()<CR>
 map('n', '<leader>co', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], default_opts)
 map('n', '<leader>/', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], default_opts)
 
-local nvim_lsp = require('lspconfig')
+require("nvim-lsp-installer").setup{
+  ensure_installed = { 'pyright', 'gopls', 'rust_analyzer', 'tsserver' }
+}
+
+local lspconfig = require('lspconfig')
 
 require('lsp_signature').setup()
 require('trouble').setup {
   auto_close = true,
 }
-map("n", "<leader>xx", "<cmd>TroubleToggle<cr>", {silent = true, noremap = true})
-map("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", {silent = true, noremap = true})
-map("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", {silent = true, noremap = true})
-map("n", "<leader>xl", "<cmd>Trouble loclist<cr>", {silent = true, noremap = true})
-map("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", {silent = true, noremap = true})
+map('n', '<leader>xx', '<cmd>TroubleToggle<cr>', {silent = true, noremap = true})
+map('n', '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>', {silent = true, noremap = true})
+map('n', '<leader>xd', '<cmd>Trouble document_diagnostics<cr>', {silent = true, noremap = true})
+map('n', '<leader>xl', '<cmd>Trouble loclist<cr>', {silent = true, noremap = true})
+map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>', {silent = true, noremap = true})
 
-map("n", "gi", "<cmd>Trouble lsp_implementations<cr>", {silent = true, noremap = true})
-map("n", "gr", "<cmd>Trouble lsp_references<cr>", {silent = true, noremap = true})
+map('n', 'gi', '<cmd>Trouble lsp_implementations<cr>', {silent = true, noremap = true})
+map('n', 'gr', '<cmd>Trouble lsp_references<cr>', {silent = true, noremap = true})
 
--- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gxd', '<cmd>split <bar> lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gvd', '<cmd>vsplit <bar> lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+local on_attach = function(_, bufnr)
+  local opts = { buffer = bufnr }
+  vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.keymap.set('n', 'gxd', '<cmd>split <bar> lua vim.lsp.buf.definition()<CR>', opts)
+  vim.keymap.set('n', 'gvd', '<cmd>vsplit <bar> lua vim.lsp.buf.definition()<CR>', opts)
+  vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.api.nvim_create_user_command('Format', vim.lsp.buf.formatting, {})
 end
 
-local lsp_installer_servers = require('nvim-lsp-installer.servers')
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-for _, name in pairs({"clangd", "gopls", "rust_analyzer", "pyright"}) do
-  local server_available, server = lsp_installer_servers.get_server(name)
-  if server_available then
-    server:on_ready(function ()
-      if server.name == "clangd" then
-        server:setup({
-          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/clangd/clangd/bin/clangd'},
-          on_attach = on_attach,
-          capabilities = capabilities,
-          flags = {
-            debounce_text_changes = 150,
-          },
-        })
-      end
-      if server.name == "gopls" then
-        server:setup({
-          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/go/gopls'},
-          on_attach = on_attach,
-          capabilities = capabilities,
-          flags = {
-            debounce_text_changes = 150,
-          },
-        })
-      end
-      if server.name == "rust_analyzer" then
-        server:setup({
-          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/rust/rust-analyzer'},
-          on_attach = on_attach,
-          capabilities = capabilities,
-          flags = {
-            debounce_text_changes = 150,
-          },
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = {
-                allFeatures = true,
-              },
-            },
-          },
-        })
-      end
-      if server.name == "pyright" then
-        server:setup({
-          cmd = {vim.fn.stdpath 'data' .. '/lsp_servers/python/node_modules/.bin/pyright-langserver', "--stdio"},
-          on_attach = on_attach,
-          capabilities = capabilities,
-          flags = {
-            debounce_text_changes = 150,
-          },
-        })
-      end
-    end)
-    if not server:is_installed() then
-      print("Installing " .. name)
-      server:install()
-    end
-  end
+-- Enable the following language servers
+local servers = { 'clangd', 'gopls', 'rust_analyzer', 'pyright', 'tsserver' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
 end
 
 cmd [[
-  autocmd BufWritePre *.go,*.rs,*.py lua vim.lsp.buf.formatting_sync(nil, 1000)
+  autocmd BufWritePre *.go,*.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
 ]]
 
 local cmp = require('cmp')
