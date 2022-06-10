@@ -43,6 +43,7 @@ require('packer').startup(function(use)
       'nvim-lua/plenary.nvim',
       'j-hui/fidget.nvim',
       {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
     }
   }
 
@@ -172,6 +173,7 @@ telescope.setup {
   },
 }
 telescope.load_extension('fzf')
+telescope.load_extension("live_grep_args")
 
 cmd [[
   command! AF :Telescope find_files find_command=fd,--type,f,--hidden,--follow,--exclude,.git,--no-ignore previewer=false
@@ -182,7 +184,7 @@ map('n', '<leader>ff', ':FF<CR>', default_opts)
 map('n', '<leader>bb', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], default_opts)
 map('n', '<leader>rg', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], default_opts)
 map('n', '<leader>co', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], default_opts)
-map('n', '<leader>/', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], default_opts)
+map('n', '<leader>/', [[<cmd>lua  require("telescope").extensions.live_grep_args.live_grep_args()<CR>]], default_opts)
 
 require("nvim-lsp-installer").setup{
   ensure_installed = { 'pyright', 'gopls', 'rust_analyzer', 'tsserver' }
@@ -256,8 +258,7 @@ cmp.setup {
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+      select = false,
     },
 
     ["<Tab>"] = cmp.mapping(function(fallback)
