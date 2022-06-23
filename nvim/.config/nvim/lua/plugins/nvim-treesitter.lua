@@ -1,7 +1,7 @@
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'c', 'cpp', 'go', 'java', 'javascript', 'lua', 'make', 
-    'python', 'rust', 'typescript',
+    'c', 'cpp', 'css', 'go', 'html', 'java', 'javascript',
+    'lua', 'make', 'python', 'rust', 'typescript',
   },
   sync_install = false,
   highlight = {
@@ -10,10 +10,10 @@ require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
+      init_selection = 'gnn',
+      node_incremental = 'grn',
+      scope_incremental = 'grc',
+      node_decremental = 'grm',
     },
   },
 }

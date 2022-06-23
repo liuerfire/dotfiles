@@ -35,7 +35,7 @@ vim.keymap.set('n', '<leader>ff', '<cmd>FF<CR>')
 vim.keymap.set('n', '<leader>bb', function() require('telescope.builtin').buffers() end)
 vim.keymap.set('n', '<leader>rg', function() require('telescope.builtin').grep_string() end)
 vim.keymap.set('n', '<leader>co', function() require('telescope.builtin').lsp_document_symbols() end)
-vim.keymap.set('n', '<leader>/', function() require("telescope").extensions.live_grep_args.live_grep_args() end)
+vim.keymap.set('n', '<leader>/', function() require('telescope').extensions.live_grep_args.live_grep_args() end)
 
 vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end)
 vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end)

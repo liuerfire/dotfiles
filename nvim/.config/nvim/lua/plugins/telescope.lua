@@ -16,15 +16,15 @@ telescope.setup {
       fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
-      case_mode = "smart_case",
+      case_mode = 'smart_case',
     },
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown {
+    ['ui-select'] = {
+      require('telescope.themes').get_dropdown {
         -- even more opts
       }
     },
   },
 }
 telescope.load_extension('fzf')
-telescope.load_extension("live_grep_args")
-telescope.load_extension("ui-select")
+telescope.load_extension('live_grep_args')
+telescope.load_extension('ui-select')
