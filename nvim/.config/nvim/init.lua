@@ -1,17 +1,20 @@
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  Packer_bootstrap = vim.fn.system {
+    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+    install_path,
+  }
+  -- https://github.com/wbthomason/packer.nvim/issues/750
+  table.insert(vim.opt.runtimepath, 1, vim.fn.stdpath('data') .. '/site/pack/*/start/*')
 end
 
 require('packer').startup(function(use)
   -- make sure to add this line to let packer manage itself
   use 'wbthomason/packer.nvim'
 
-  use 'liuerfire/vim-code-dark'
-  use 'sainnhe/edge'
   use 'sainnhe/gruvbox-material'
-  use 'rebelot/kanagawa.nvim'
   use 'eemed/sitruuna.vim'
+  use 'Mofiqul/vscode.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
   use 'tpope/vim-fugitive'
@@ -19,7 +22,6 @@ require('packer').startup(function(use)
   use 'machakann/vim-sandwich'
   use 'editorconfig/editorconfig-vim'
   use 'junegunn/vim-easy-align'
-  use 'ntpeters/vim-better-whitespace'
 
   use 'nathangrigg/vim-beancount'
   use 'google/vim-jsonnet'
@@ -42,9 +44,9 @@ require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
-      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
-      {'nvim-telescope/telescope-live-grep-args.nvim'},
-      {'nvim-telescope/telescope-ui-select.nvim'},
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+      { 'nvim-telescope/telescope-live-grep-args.nvim' },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
     },
     config = function() require('plugins.telescope') end,
   }
@@ -79,10 +81,17 @@ require('packer').startup(function(use)
     config = function() require('plugins.lualine') end,
   }
 
+  use {
+    'kevinhwang91/nvim-ufo',
+    requires = 'kevinhwang91/promise-async',
+    config = function() require('plugins.ufo') end,
+  }
+
   use 'williamboman/nvim-lsp-installer'
   use {
     'neovim/nvim-lspconfig',
     requires = {
+      'mfussenegger/nvim-jdtls',
       'jose-elias-alvarez/null-ls.nvim',
     },
     config = function() require('plugins.lspconfig') end,
@@ -116,6 +125,7 @@ require('packer').startup(function(use)
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
       'rafamadriz/friendly-snippets',
+      'onsails/lspkind.nvim',
     },
     config = function() require('plugins.cmp') end,
   }
@@ -134,4 +144,3 @@ require('keymaps')
 if vim.fn.filereadable(vim.fn.stdpath 'config' .. '/lua/local.lua') == 1 then
   require('local')
 end
-

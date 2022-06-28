@@ -9,8 +9,8 @@ vim.opt.splitbelow = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.list = true
-vim.opt.listchars='tab:⇢ ,eol:¬,trail:·,extends:↷,precedes:↶'
-vim.opt.showbreak='↪'
+vim.opt.listchars = 'tab:⇢ ,eol:¬,trail:·,extends:↷,precedes:↶'
+vim.opt.showbreak = '↪'
 vim.opt.hidden = true
 vim.opt.lazyredraw = true
 vim.opt.inccommand = 'split'
@@ -20,6 +20,9 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.completeopt = 'menu,menuone,noselect'
+
+vim.wo.foldlevel = 99
+vim.wo.foldenable = true
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
