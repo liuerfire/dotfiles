@@ -72,7 +72,7 @@ require('lspconfig')['sumneko_lua'].setup {
 }
 
 
-local workspace_folder = home .. '/workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+local workspace_folder = home .. '/workspace/.jdtls/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
 local jdtls_config = {
   on_attach = on_attach,
@@ -94,7 +94,7 @@ local jdtls_config = {
     '-configuration', home .. '/.local/share/nvim/lsp_servers/jdtls/config_linux',
     '-data', workspace_folder,
   },
-  root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
+  root_dir = require('jdtls.setup').find_root({ '.git', 'pom.xml', 'gradlew' }),
   settings = {
     java = {
       configuration = {

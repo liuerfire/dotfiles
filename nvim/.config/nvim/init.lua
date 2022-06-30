@@ -96,14 +96,6 @@ require('packer').startup(function(use)
     },
     config = function() require('plugins.lspconfig') end,
   }
-  use {
-    'folke/trouble.nvim',
-    config = function()
-      require('trouble').setup {
-        auto_close = true,
-      }
-    end,
-  }
 
   use {
     'j-hui/fidget.nvim',

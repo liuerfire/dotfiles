@@ -3,6 +3,7 @@ local actions = require('telescope.actions')
 
 telescope.setup {
   defaults = {
+    layout_strategy = 'vertical',
     mappings = {
       i = {
         ['<C-u>'] = false,
