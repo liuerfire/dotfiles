@@ -122,6 +122,11 @@ require('packer').startup(function(use)
     config = function() require('plugins.cmp') end,
   }
 
+  use {
+    "akinsho/toggleterm.nvim",
+    config = function() require("plugins.toggleterm") end,
+  }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if Packer_bootstrap then
