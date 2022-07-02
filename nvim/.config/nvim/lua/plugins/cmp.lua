@@ -11,6 +11,8 @@ local feedkey = function(key, mode)
 end
 
 cmp.setup {
+  preselect = cmp.PreselectMode.None,
+
   -- load snippet support
   snippet = {
     expand = function(args)

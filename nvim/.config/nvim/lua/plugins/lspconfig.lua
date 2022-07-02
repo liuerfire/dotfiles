@@ -25,7 +25,7 @@ null_ls.setup({
     null_ls.builtins.formatting.black,
     null_ls.builtins.formatting.isort,
   },
-  -- on_attach = on_attach
+  on_attach = on_attach
 })
 
 local lspconfig = require('lspconfig')
@@ -36,13 +36,25 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers = { 'clangd', 'gopls', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'gopls', 'pyright', 'tsserver' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    ['rust-analyzer'] = {
+      cargo = {
+        allFeatures = true,
+      },
+    },
+  },
+}
 
 -- Make runtime files discoverable to the server
 local runtime_path = vim.split(package.path, ';')
@@ -85,7 +97,7 @@ local jdtls_config = {
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
     '--add-opens', 'java.base/sun.nio.fs=ALL-UNNAMED',
-    '-javaagent:/home/liuerfire/.local/share/nvim/lsp_servers/jdtls/lombok.jar',
+    '-javaagent:' .. home .. '/.local/share/nvim/lsp_servers/jdtls/lombok.jar',
     '-jar', vim.fn.glob(home .. '/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
     '-configuration', home .. '/.local/share/nvim/lsp_servers/jdtls/config_linux',
     '-data', workspace_folder,

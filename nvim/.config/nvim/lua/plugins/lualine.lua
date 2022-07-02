@@ -32,4 +32,5 @@ require('lualine').setup {
     component_separators = { left = '', right = '' },
     globalstatus = true,
   },
+  extensions = { 'toggleterm' },
 }

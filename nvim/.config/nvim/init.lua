@@ -81,12 +81,6 @@ require('packer').startup(function(use)
     config = function() require('plugins.lualine') end,
   }
 
-  use {
-    'kevinhwang91/nvim-ufo',
-    requires = 'kevinhwang91/promise-async',
-    config = function() require('plugins.ufo') end,
-  }
-
   use 'williamboman/nvim-lsp-installer'
   use {
     'neovim/nvim-lspconfig',
