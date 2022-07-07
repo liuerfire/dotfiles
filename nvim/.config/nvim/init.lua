@@ -25,6 +25,7 @@ require('packer').startup(function(use)
 
   use 'nathangrigg/vim-beancount'
   use 'google/vim-jsonnet'
+  use 'hashivim/vim-terraform'
 
   use {
     'kyazdani42/nvim-tree.lua',
