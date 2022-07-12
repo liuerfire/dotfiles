@@ -9,6 +9,9 @@ telescope.setup {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
         ['<ESC>'] = actions.close,
+        -- ESC and C-[ send different codes in Kitty
+        -- https://sw.kovidgoyal.net/kitty/keyboard-protocol/
+        ['<C-[>'] = actions.close,
       },
     },
   },

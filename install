@@ -76,16 +76,9 @@ packages=( \
   telegram-desktop \
   tmux \
   ttf-fira-code \
-  ttf-iosevka-nerd \
   ttf-sarasa-gothic \
   unzip \
   vagrant \
-  virtualbox \
-  virtualbox-guest-iso \
-  virtualbox-host-modules-arch \
-  virtualbox \
-  visual-studio-code-bin \
-  wezterm \
   wireshark-qt \
   wl-clipboard \
   xclip \

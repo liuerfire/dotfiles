@@ -18,6 +18,9 @@ vim.api.nvim_create_user_command('FloatTerm', 'ToggleTerm direction=float', {})
 
 function _G.set_terminal_keymaps()
   local opts = { noremap = true }
+  -- ESC and C-[ send different codes in Kitty
+  -- https://sw.kovidgoyal.net/kitty/keyboard-protocol/
+  vim.api.nvim_buf_set_keymap(0, 't', '<C-[>', [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, 't', '<A-;>', [[<C-\><C-n>:ToggleTerm<cr>]], opts)
 end
