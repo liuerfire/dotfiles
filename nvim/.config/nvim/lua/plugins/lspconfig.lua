@@ -27,6 +27,14 @@ null_ls.setup({
   },
   on_attach = on_attach
 })
+vim.api.nvim_create_user_command("NullLsToggle", function()
+  null_ls.toggle({
+    sources = {
+      null_ls.builtins.formatting.black,
+      null_ls.builtins.formatting.isort,
+    },
+  })
+end, {})
 
 local lspconfig = require('lspconfig')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -102,7 +110,7 @@ local jdtls_config = {
     '-configuration', home .. '/.local/share/nvim/lsp_servers/jdtls/config_linux',
     '-data', workspace_folder,
   },
-  root_dir = require('jdtls.setup').find_root({ '.git', 'pom.xml', 'gradlew' }),
+  root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
   settings = {
     java = {
       configuration = {

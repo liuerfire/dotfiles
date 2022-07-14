@@ -10,7 +10,7 @@ toggleterm.setup {
   end,
 }
 
-vim.keymap.set('n', '<A-:>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>')
+vim.keymap.set('n', '<A-\'>', '<Cmd>exe v:count1 . "ToggleTerm"<CR>')
 vim.keymap.set('n', '<A-;>', '<Cmd>exe v:count1 . "ToggleTerm direction=vertical"<CR>')
 vim.keymap.set('n', '<A-S-t>', '<Cmd>exe v:count1 . "ToggleTerm direction=tab"<CR>')
 vim.keymap.set('n', '<leader>tt', '<Cmd>ToggleTerm direction=float<CR>')
@@ -23,6 +23,7 @@ function _G.set_terminal_keymaps()
   vim.api.nvim_buf_set_keymap(0, 't', '<C-[>', [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, 't', '<A-;>', [[<C-\><C-n>:ToggleTerm<cr>]], opts)
+  vim.api.nvim_buf_set_keymap(0, 't', '<A-\'>', [[<C-\><C-n>:ToggleTerm<cr>]], opts)
 end
 
 vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')

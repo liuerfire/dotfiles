@@ -3,7 +3,6 @@
 set -eo pipefail
 
 packages=( \
-  1password \
   ansible \
   bash-completion \
   bat \
@@ -11,37 +10,24 @@ packages=( \
   bcc-tools \
   bear \
   bind \
-  chromium \
   clang \
   clash \
   cmake \
   dnsmasq \
-  docker \
-  docker-compose \
   exa \
-  fcitx5 \
-  fcitx5-configtool \
-  fcitx5-gtk \
-  fcitx5-material-color \
-  fcitx5-pinyin-moegirl-rime \
-  fcitx5-pinyin-zhwiki-rime \
-  fcitx5-qt \
-  fcitx5-rime \
   fd \
-  firefox \
   flatpak \
   fzf \
   git-delta \
   go \
-  gopls \
   helm \
   hugo \
   inetutils \
-  jdk-openjdk \
+  jdk11-openjdk \
+  jdk17-openjdk \
   kde-graphics-meta \
   kitty \
   kubectx \
-  libreoffice-still-zh-cn \
   linux-headers \
   linux-tools \
   man-db \
@@ -64,19 +50,14 @@ packages=( \
   python-black \
   python-isort \
   python-pynvim \
-  rime-emoji \
   ripgrep \
   skopeo \
   sof-firmware \
   sshpass \
-  starship \
   stow \
   strace \
   tcpdump \
-  telegram-desktop \
   tmux \
-  ttf-fira-code \
-  ttf-sarasa-gothic \
   unzip \
   vagrant \
   wireshark-qt \
@@ -98,11 +79,10 @@ for name in ${packages[@]}; do
   fi
 done
 
-mkdir -p ~/.config/alacritty
 mkdir -p ~/.config/kitty
 mkdir -p ~/.config/nvim
 mkdir -p ~/.zsh/plugins
 mkdir -p ~/workspace
 mkdir -p ~/code
 
-stow alacritty git nvim tmux zsh kitty
+stow git nvim tmux zsh kitty
