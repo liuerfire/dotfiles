@@ -14,3 +14,7 @@ alias pacman-pkg-info='pacman -Q -i'
 alias pacx='sudo pacman --remove'
 # Removes packages, their configuration, and unneeded dependencies.
 alias pacX='sudo pacman --remove --nosave --recursive'
+
+if [[ "$TERM" == "xterm-kitty" ]]; then
+  alias ssh='kitty +kitten ssh'
+fi

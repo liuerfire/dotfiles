@@ -9,11 +9,21 @@ telescope.setup {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
         ['<ESC>'] = actions.close,
-        -- ESC and C-[ send different codes in Kitty
-        -- https://sw.kovidgoyal.net/kitty/keyboard-protocol/
+        -- needed when in kitty. See: https://sw.kovidgoyal.net/kitty/keyboard-protocol/
         ['<C-[>'] = actions.close,
       },
     },
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--hidden",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--trim"
+    }
   },
   extensions = {
     fzf = {
