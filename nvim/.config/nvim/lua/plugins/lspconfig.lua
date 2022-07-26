@@ -1,6 +1,11 @@
-require('nvim-lsp-installer').setup {
-  automatic_installation = true
-}
+require('mason').setup()
+require('mason-lspconfig').setup({
+  ensure_installed = {
+    'clangd', 'gopls', 'jdtls', 'pyright',
+    'rust_analyzer', 'sumneko_lua', 'tsserver',
+  },
+  automatic_installation = true,
+})
 
 local home = os.getenv('HOME')
 
@@ -105,9 +110,9 @@ local jdtls_config = {
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
     '--add-opens', 'java.base/sun.nio.fs=ALL-UNNAMED',
-    '-javaagent:' .. home .. '/.local/share/nvim/lsp_servers/jdtls/lombok.jar',
-    '-jar', vim.fn.glob(home .. '/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
-    '-configuration', home .. '/.local/share/nvim/lsp_servers/jdtls/config_linux',
+    '-javaagent:' .. home .. '/.local/share/nvim/mason/packages/jdtls/lombok.jar',
+    '-jar', vim.fn.glob(home .. '/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar'),
+    '-configuration', home .. '/.local/share/nvim/mason/packages/jdtls/config_linux',
     '-data', workspace_folder,
   },
   root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),

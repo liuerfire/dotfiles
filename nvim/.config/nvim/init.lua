@@ -82,7 +82,8 @@ require('packer').startup(function(use)
     config = function() require('plugins.lualine') end,
   }
 
-  use 'williamboman/nvim-lsp-installer'
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
   use {
     'neovim/nvim-lspconfig',
     requires = {
