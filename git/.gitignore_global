@@ -19,3 +19,4 @@ Debug
 .classpath
 .project
 __pycache__
+.cache

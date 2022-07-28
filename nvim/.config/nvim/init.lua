@@ -13,19 +13,27 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'sainnhe/gruvbox-material'
-  use 'eemed/sitruuna.vim'
   use 'Mofiqul/vscode.nvim'
+  use 'Mofiqul/adwaita.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
   use 'tpope/vim-fugitive'
-  use 'tpope/vim-commentary'
-  use 'machakann/vim-sandwich'
   use 'editorconfig/editorconfig-vim'
   use 'junegunn/vim-easy-align'
 
   use 'nathangrigg/vim-beancount'
   use 'google/vim-jsonnet'
   use 'hashivim/vim-terraform'
+
+  use {
+    'kylechui/nvim-surround',
+    config = function() require('nvim-surround').setup() end
+  }
+
+  use {
+    'numToStr/Comment.nvim',
+    config = function() require('Comment').setup() end
+  }
 
   use {
     'kyazdani42/nvim-tree.lua',
@@ -119,8 +127,8 @@ require('packer').startup(function(use)
   }
 
   use {
-    "akinsho/toggleterm.nvim",
-    config = function() require("plugins.toggleterm") end,
+    'akinsho/toggleterm.nvim',
+    config = function() require('plugins.toggleterm') end,
   }
 
   -- Automatically set up your configuration after cloning packer.nvim
