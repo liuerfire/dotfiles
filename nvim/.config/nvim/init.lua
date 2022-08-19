@@ -17,7 +17,6 @@ require('packer').startup(function(use)
   use 'Mofiqul/adwaita.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
-  use 'tpope/vim-fugitive'
   use 'editorconfig/editorconfig-vim'
   use 'junegunn/vim-easy-align'
 
@@ -76,7 +75,7 @@ require('packer').startup(function(use)
   }
 
   use {
-    'norcalli/nvim-colorizer.lua',
+    'NvChad/nvim-colorizer.lua',
     config = function() require('colorizer').setup() end,
   }
 
@@ -99,6 +98,14 @@ require('packer').startup(function(use)
       'jose-elias-alvarez/null-ls.nvim',
     },
     config = function() require('plugins.lspconfig') end,
+  }
+
+  use {
+    'kosayoda/nvim-lightbulb',
+    requires = 'antoinemadec/FixCursorHold.nvim',
+    config = function()
+      require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
+    end,
   }
 
   use {
