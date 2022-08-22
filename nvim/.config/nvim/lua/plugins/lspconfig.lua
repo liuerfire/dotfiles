@@ -49,13 +49,15 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers = { 'clangd', 'gopls', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'gopls', 'pyright' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
   }
 end
+
+require('typescript').setup()
 
 lspconfig.rust_analyzer.setup {
   on_attach = on_attach,

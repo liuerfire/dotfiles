@@ -23,7 +23,8 @@ telescope.setup {
       "--column",
       "--smart-case",
       "--trim"
-    }
+    },
+    dynamic_preview_title = true,
   },
   extensions = {
     fzf = {

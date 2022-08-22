@@ -96,6 +96,7 @@ require('packer').startup(function(use)
     requires = {
       'mfussenegger/nvim-jdtls',
       'jose-elias-alvarez/null-ls.nvim',
+      'jose-elias-alvarez/typescript.nvim',
     },
     config = function() require('plugins.lspconfig') end,
   }
