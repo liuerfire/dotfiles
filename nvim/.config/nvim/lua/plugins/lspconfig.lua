@@ -140,5 +140,6 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'java',
   callback = function()
     require('jdtls').start_or_attach(jdtls_config)
+    require('jdtls.setup').add_commands()
   end,
 })

@@ -50,3 +50,10 @@ vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 
 vim.api.nvim_create_user_command('Format', vim.lsp.buf.formatting, {})
+
+vim.api.nvim_create_user_command('CopyFilePath', function()
+  vim.fn.system('wl-copy', vim.fn.expand('%'))
+end, {})
+vim.api.nvim_create_user_command('CopyFileAbsPath', function()
+  vim.fn.system('wl-copy', vim.fn.expand('%:p'))
+end, {})
