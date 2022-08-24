@@ -14,9 +14,11 @@ Debug
 .mypy_cache
 .vscode
 .venv
+venv
 .settings
 .factorypath
 .classpath
 .project
 __pycache__
 .cache
+.env

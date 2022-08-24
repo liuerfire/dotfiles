@@ -57,13 +57,31 @@ if [[ -n "$(command -v fzf)" ]]; then
 fi
 # }}
 
+py-venv() {
+  if [[ -f venv/bin/activate ]]
+  then
+    source venv/bin/activate
+  else
+    if [[ -f .venv/bin/activate ]]
+    then
+      source .venv/bin/activate
+    else
+      python -m venv .venv
+      .venv/bin/python -m pip install -U pip
+      source .venv/bin/activate
+    fi
+  fi
+}
+
+[[ -s .env ]] && source .env
+
 autoload -U compinit && compinit
 
 for file in ~/.zsh/*.zsh; do
   source "$file"
 done
 
-[ -s ~/.zsh_private ] && source ~/.zsh_private
+[[ -s ~/.zsh_private ]] && source ~/.zsh_private
 
 typeset -gU cdpath fpath mailpath path
 

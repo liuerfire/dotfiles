@@ -2,6 +2,7 @@
 	email = liuerfire@gmail.com
 	name = liuerfire
 	signingkey = C1F4EEE16FB4E84C
+	useConfigOnly = true
 [core]
 	pager = delta
 	excludesfile = ~/.gitignore_global
@@ -9,6 +10,7 @@
 	diffFilter = delta --color-only
 [merge]
 	tool = vimdiff
+	conflictstyle = diff3
 [mergetool "vimdiff"]
 	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [commit]
@@ -17,8 +19,14 @@
 	ff = only
 [include]
 	path = ~/.gitconfig_private
-
 [mergetool]
 	keepBackup = false
 [init]
 	defaultBranch = master
+[push]
+	default = current
+[delta]
+	navigate = true
+	line-numbers = true
+[diff]
+	colorMoved = default

@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'java,c,cpp',
+  pattern = 'c,cpp,java,gitconfig',
   callback = function()
     vim.opt_local.shiftwidth = 4
     vim.opt_local.tabstop = 4

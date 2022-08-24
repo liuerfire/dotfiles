@@ -57,3 +57,10 @@ end, {})
 vim.api.nvim_create_user_command('CopyFileAbsPath', function()
   vim.fn.system('wl-copy', vim.fn.expand('%:p'))
 end, {})
+vim.api.nvim_create_user_command('TrimSpace', function()
+  -- Save cursor position to later restore
+  local curpos = vim.api.nvim_win_get_cursor(0)
+  -- Search and replace trailing whitespace
+  vim.cmd([[keeppatterns %s/\s\+$//e]])
+  vim.api.nvim_win_set_cursor(0, curpos)
+end, {})
