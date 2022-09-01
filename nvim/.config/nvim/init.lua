@@ -13,10 +13,12 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'sainnhe/gruvbox-material'
+  use 'rebelot/kanagawa.nvim'
+  use 'savq/melange'
   use 'Mofiqul/vscode.nvim'
-  use 'Mofiqul/adwaita.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
+  use 'tpope/vim-fugitive'
   use 'editorconfig/editorconfig-vim'
   use 'junegunn/vim-easy-align'
 
@@ -76,17 +78,12 @@ require('packer').startup(function(use)
 
   use {
     'NvChad/nvim-colorizer.lua',
-    config = function() require('colorizer').setup() end,
+    config = function() require('colorizer').setup({}) end,
   }
 
   use {
     'lewis6991/gitsigns.nvim',
     config = function() require('gitsigns').setup() end,
-  }
-
-  use {
-    'nvim-lualine/lualine.nvim',
-    config = function() require('plugins.lualine') end,
   }
 
   use 'williamboman/mason.nvim'
@@ -137,6 +134,11 @@ require('packer').startup(function(use)
   use {
     'akinsho/toggleterm.nvim',
     config = function() require('plugins.toggleterm') end,
+  }
+
+  use {
+    'feline-nvim/feline.nvim',
+    config = function() require('plugins.feline') end,
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

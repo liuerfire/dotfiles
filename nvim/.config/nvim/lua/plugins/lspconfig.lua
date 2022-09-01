@@ -27,6 +27,7 @@ end
 local null_ls = require('null-ls')
 null_ls.setup({
   sources = {
+    null_ls.builtins.diagnostics.mypy,
     null_ls.builtins.formatting.black,
     null_ls.builtins.formatting.isort,
   },
@@ -98,6 +99,15 @@ lspconfig.sumneko_lua.setup {
 local workspace_folder = home .. '/workspace/.jdtls/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
 local jdtls_config = {
+  init_options = {
+    extendedClientCapabilities = {
+      progressReportProvider = false,
+    },
+  },
+  handlers = {
+    -- mute; having progress reports is enough
+    ['language/status'] = function() end
+  },
   on_attach = on_attach,
   capabilities = capabilities,
   cmd = {
@@ -120,6 +130,23 @@ local jdtls_config = {
   root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
   settings = {
     java = {
+      signatureHelp = { enabled = true },
+      contentProvider = { preferred = 'fernflower' },
+      sources = {
+        organizeImports = {
+          starThreshold = 9999;
+          staticStarThreshold = 9999;
+        },
+      },
+      codeGeneration = {
+        toString = {
+          template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+        },
+        hashCodeEquals = {
+          useJava7Objects = true,
+        },
+        useBlocks = true,
+      },
       configuration = {
         runtimes = {
           {
