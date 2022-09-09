@@ -17,6 +17,8 @@ vim.keymap.set('n', '<C-k>', '<C-w>k')
 vim.keymap.set('n', '<C-l>', '<C-w>l')
 vim.keymap.set('i', '<C-a>', '<Home>')
 vim.keymap.set('i', '<C-e>', '<End>')
+vim.keymap.set('i', '<C-f>', '<Right>')
+vim.keymap.set('i', '<C-b>', '<Left>')
 
 vim.keymap.set('n', '<leader>p', '"+p')
 vim.keymap.set('n', '<leader>P', '"+P')

@@ -27,8 +27,7 @@ components.active[1] = {
       },
     },
     hl = {
-      fg = 'NONE',
-      style = 'bold',
+      fg = 'White',
     },
     right_sep = ' ',
   },
