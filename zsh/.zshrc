@@ -57,23 +57,13 @@ if [[ -n "$(command -v fzf)" ]]; then
 fi
 # }}
 
-py-venv() {
-  if [[ -f venv/bin/activate ]]
-  then
-    source venv/bin/activate
-  else
-    if [[ -f .venv/bin/activate ]]
-    then
-      source .venv/bin/activate
-    else
-      python -m venv .venv
-      .venv/bin/python -m pip install -U pip
-      source .venv/bin/activate
-    fi
+source-env() {
+  if [[ -s .env ]]; then
+    source .env
   fi
 }
 
-[[ -s .env ]] && source .env
+add-zsh-hook chpwd source-env
 
 autoload -U compinit && compinit
 
