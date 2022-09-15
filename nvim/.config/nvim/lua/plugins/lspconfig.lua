@@ -17,8 +17,7 @@ local on_attach = function(client, bufnr)
       group = augroup,
       buffer = bufnr,
       callback = function()
-        -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-        vim.lsp.buf.formatting_sync()
+        vim.lsp.buf.format()
       end,
     })
   end
@@ -28,7 +27,9 @@ local null_ls = require('null-ls')
 null_ls.setup({
   sources = {
     null_ls.builtins.diagnostics.mypy,
-    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.black.with({
+      extra_args = { "-S", "-l", "180" },
+    }),
     null_ls.builtins.formatting.isort,
   },
   on_attach = on_attach
@@ -48,7 +49,7 @@ capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true
 }
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local servers = { 'clangd', 'gopls', 'pyright' }
 for _, lsp in ipairs(servers) do
@@ -58,19 +59,31 @@ for _, lsp in ipairs(servers) do
   }
 end
 
-require('typescript').setup()
+require('typescript').setup({
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+})
 
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    ['rust-analyzer'] = {
-      cargo = {
-        allFeatures = true,
+require("rust-tools").setup({
+  tools = {
+    inlay_hints = {
+      auto = false,
+    }
+  },
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = {
+          allFeatures = true,
+        },
       },
     },
   },
-}
+})
 
 -- Make runtime files discoverable to the server
 local runtime_path = vim.split(package.path, ';')

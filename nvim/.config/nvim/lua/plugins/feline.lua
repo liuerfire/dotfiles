@@ -89,3 +89,5 @@ components.inactive[1] = {
 require("feline").setup({
   components = components,
 })
+
+require('feline').winbar.setup()

@@ -22,7 +22,9 @@ telescope.setup {
       "--line-number",
       "--column",
       "--smart-case",
-      "--trim"
+      "--trim",
+      "-g",
+      "!.git",
     },
     dynamic_preview_title = true,
   },

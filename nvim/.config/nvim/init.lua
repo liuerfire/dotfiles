@@ -13,7 +13,6 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'sainnhe/gruvbox-material'
-  use 'rebelot/kanagawa.nvim'
   use 'savq/melange'
   use 'Mofiqul/vscode.nvim'
   use 'kyazdani42/nvim-web-devicons'
@@ -94,6 +93,7 @@ require('packer').startup(function(use)
       'mfussenegger/nvim-jdtls',
       'jose-elias-alvarez/null-ls.nvim',
       'jose-elias-alvarez/typescript.nvim',
+      'simrat39/rust-tools.nvim',
     },
     config = function() require('plugins.lspconfig') end,
   }
@@ -123,6 +123,7 @@ require('packer').startup(function(use)
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
       'rafamadriz/friendly-snippets',
