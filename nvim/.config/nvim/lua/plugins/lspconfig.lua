@@ -28,7 +28,7 @@ null_ls.setup({
   sources = {
     null_ls.builtins.diagnostics.mypy,
     null_ls.builtins.formatting.black.with({
-      extra_args = { "-S", "-l", "180" },
+      extra_args = { "-S", "-l", "120" },
     }),
     null_ls.builtins.formatting.isort,
   },
