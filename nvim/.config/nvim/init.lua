@@ -15,6 +15,7 @@ require('packer').startup(function(use)
   use 'sainnhe/gruvbox-material'
   use 'savq/melange'
   use 'Mofiqul/vscode.nvim'
+  use 'NTBBloodbath/doom-one.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
   use 'tpope/vim-fugitive'

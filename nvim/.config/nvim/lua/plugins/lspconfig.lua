@@ -11,6 +11,11 @@ local home = os.getenv('HOME')
 
 local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 local on_attach = function(client, bufnr)
+  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+    vim.lsp.buf.format()
+  end, { desc = 'Format current buffer with LSP' })
+
+  -- format on save if the lsp server supports formatting
   if client.supports_method('textDocument/formatting') then
     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
     vim.api.nvim_create_autocmd('BufWritePre', {
@@ -27,21 +32,10 @@ local null_ls = require('null-ls')
 null_ls.setup({
   sources = {
     null_ls.builtins.diagnostics.mypy,
-    null_ls.builtins.formatting.black.with({
-      extra_args = { "-S", "-l", "120" },
-    }),
-    null_ls.builtins.formatting.isort,
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.reorder_python_imports,
   },
-  on_attach = on_attach
 })
-vim.api.nvim_create_user_command("NullLsToggle", function()
-  null_ls.toggle({
-    sources = {
-      null_ls.builtins.formatting.black,
-      null_ls.builtins.formatting.isort,
-    },
-  })
-end, {})
 
 local lspconfig = require('lspconfig')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
