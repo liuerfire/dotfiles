@@ -48,6 +48,7 @@ vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition)
 vim.keymap.set('n', 'gi', function() require('telescope.builtin').lsp_implementations({ show_line = false }) end)
 vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references({ show_line = false }) end)
 vim.keymap.set('n', '<leader>xx', require('telescope.builtin').diagnostics)
+vim.keymap.set('n', '<leader>xb', function() require('telescope.builtin').diagnostics({ bufnr = 0 }) end)
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 
