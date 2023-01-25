@@ -6,12 +6,12 @@ return {
   force_reverse_video_cursor = true,
   tab_bar_at_bottom = true,
   font = wezterm.font_with_fallback {
-    "iosevka",
+    "Iosevka",
     "JetBrains Mono",
   },
   exit_behavior = "Close",
   window_close_confirmation = "NeverPrompt",
-  font_size = 12,
+  font_size = 11,
   audible_bell = "Disabled",
   initial_rows = 50,
   initial_cols = 200,
@@ -20,6 +20,11 @@ return {
       event = { Up = { streak = 2, button = 'Left' } },
       mods = 'NONE',
       action = act.CopyTo 'ClipboardAndPrimarySelection',
+    },
+    {
+      event = { Up = { streak = 1, button = 'Left' } },
+      mods = 'NONE',
+      action = wezterm.action.CompleteSelectionOrOpenLinkAtMouseCursor 'Clipboard',
     },
   },
   keys = {

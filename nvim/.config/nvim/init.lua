@@ -12,10 +12,8 @@ require('packer').startup(function(use)
   -- make sure to add this line to let packer manage itself
   use 'wbthomason/packer.nvim'
 
-  use 'sainnhe/gruvbox-material'
-  use 'savq/melange'
   use 'Mofiqul/vscode.nvim'
-  use 'bluz71/vim-moonfly-colors'
+  use 'Mofiqul/adwaita.nvim'
   use 'kyazdani42/nvim-web-devicons'
 
   use 'tpope/vim-fugitive'
