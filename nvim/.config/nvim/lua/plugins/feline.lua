@@ -1,4 +1,4 @@
-local vi_mode_utils = require('feline.providers.vi_mode')
+local vi_mode_utils = require("feline.providers.vi_mode")
 
 local components = {
   active = {},
@@ -8,86 +8,85 @@ local components = {
 components.active[1] = {
   {
     provider = function()
-      return ' ' .. vi_mode_utils.get_vim_mode() .. ' '
+      return " " .. vi_mode_utils.get_vim_mode() .. " "
     end,
     hl = function()
       return {
         name = vi_mode_utils.get_mode_highlight_name(),
-        style = 'bold',
+        style = "bold",
       }
     end,
-    right_sep = ' ',
-    icon = '',
+    right_sep = " ",
+    icon = "",
   },
   {
     provider = {
-      name = 'file_info',
+      name = "file_info",
       opts = {
-        type = 'relative',
+        type = "relative",
       },
     },
     hl = {
-      fg = 'White',
+      fg = "White",
     },
-    right_sep = ' ',
+    right_sep = " ",
   },
 }
 
 components.active[2] = {
   {
-    provider = 'diagnostic_errors',
-    hl = { fg = 'red' },
+    provider = "diagnostic_errors",
+    hl = { fg = "red" },
   },
   {
-    provider = 'diagnostic_warnings',
-    hl = { fg = 'yellow' },
+    provider = "diagnostic_warnings",
+    hl = { fg = "yellow" },
   },
   {
-    provider = 'diagnostic_hints',
-    hl = { fg = 'cyan' },
+    provider = "diagnostic_hints",
+    hl = { fg = "cyan" },
   },
   {
-    provider = 'diagnostic_info',
-    hl = { fg = 'skyblue' },
+    provider = "diagnostic_info",
+    hl = { fg = "skyblue" },
   },
 }
 
 components.active[3] = {
   {
-    provider = 'position',
-    left_sep = ' ',
-    right_sep = ' ',
+    provider = "position",
+    left_sep = " ",
+    right_sep = " ",
   },
   {
-    provider = 'line_percentage',
+    provider = "line_percentage",
     hl = {
-      style = 'bold',
+      style = "bold",
     },
-    right_sep = ' ',
+    right_sep = " ",
   },
   {
-    provider = 'scroll_bar',
+    provider = "scroll_bar",
     hl = {
-      fg = 'skyblue',
-      style = 'bold',
+      fg = "skyblue",
+      style = "bold",
     },
   },
 }
 
 components.inactive[1] = {
   {
-    provider = 'file_info',
+    provider = "file_info",
     hl = {
-      style = 'bold',
+      style = "bold",
     },
   },
   -- Empty component to fix the highlight till the end of the statusline
   {},
 }
 
-
 require("feline").setup({
   components = components,
 })
 
-require('feline').winbar.setup()
+require("feline").winbar.setup()

@@ -1,16 +1,16 @@
-local telescope = require('telescope')
-local actions = require('telescope.actions')
+local telescope = require("telescope")
+local actions = require("telescope.actions")
 
-telescope.setup {
+telescope.setup({
   defaults = {
-    layout_strategy = 'vertical',
+    layout_strategy = "vertical",
     mappings = {
       i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-        ['<ESC>'] = actions.close,
+        ["<C-u>"] = false,
+        ["<C-d>"] = false,
+        ["<ESC>"] = actions.close,
         -- needed when in kitty. See: https://sw.kovidgoyal.net/kitty/keyboard-protocol/
-        ['<C-[>'] = actions.close,
+        ["<C-[>"] = actions.close,
       },
     },
     vimgrep_arguments = {
@@ -33,15 +33,15 @@ telescope.setup {
       fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
-      case_mode = 'smart_case',
+      case_mode = "smart_case",
     },
-    ['ui-select'] = {
-      require('telescope.themes').get_dropdown {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown({
         -- even more opts
-      }
+      }),
     },
   },
-}
-telescope.load_extension('fzf')
-telescope.load_extension('live_grep_args')
-telescope.load_extension('ui-select')
+})
+telescope.load_extension("fzf")
+telescope.load_extension("live_grep_args")
+telescope.load_extension("ui-select")

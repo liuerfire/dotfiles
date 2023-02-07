@@ -1,158 +1,177 @@
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  Packer_bootstrap = vim.fn.system {
-    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
-    install_path,
-  }
-  -- https://github.com/wbthomason/packer.nvim/issues/750
-  table.insert(vim.opt.runtimepath, 1, vim.fn.stdpath('data') .. '/site/pack/*/start/*')
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-require('packer').startup(function(use)
-  -- make sure to add this line to let packer manage itself
-  use 'wbthomason/packer.nvim'
+vim.keymap.set("", "<Space>", "<nop>")
+vim.g.mapleader = " "
 
-  use 'Mofiqul/vscode.nvim'
-  use 'Mofiqul/adwaita.nvim'
-  use 'kyazdani42/nvim-web-devicons'
+require("settings")
 
-  use 'tpope/vim-fugitive'
-  use 'editorconfig/editorconfig-vim'
-  use 'junegunn/vim-easy-align'
+require("lazy").setup({
+  { "Mofiqul/vscode.nvim" },
+  { "Mofiqul/adwaita.nvim" },
 
-  use 'nathangrigg/vim-beancount'
-  use 'google/vim-jsonnet'
-  use 'hashivim/vim-terraform'
-  use 'lifepillar/pgsql.vim'
+  { "tpope/vim-fugitive" },
+  { "editorconfig/editorconfig-vim" },
+  { "junegunn/vim-easy-align" },
 
-  use {
-    'kylechui/nvim-surround',
-    config = function() require('nvim-surround').setup() end
-  }
+  { "nathangrigg/vim-beancount" },
+  { "google/vim-jsonnet" },
+  { "hashivim/vim-terraform" },
+  { "lifepillar/pgsql.vim" },
 
-  use {
-    'numToStr/Comment.nvim',
-    config = function() require('Comment').setup() end
-  }
-
-  use {
-    'kyazdani42/nvim-tree.lua',
+  {
+    "kylechui/nvim-surround",
     config = function()
-      require('nvim-tree').setup {
+      require("nvim-surround").setup()
+    end,
+  },
+
+  {
+    "echasnovski/mini.comment",
+    config = function()
+      require("mini.comment").setup({})
+    end,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    config = function()
+      require("nvim-tree").setup({
         view = {
           adaptive_size = true,
         },
         update_focused_file = {
           enable = true,
-        }
-      }
+        },
+      })
     end,
-  }
-
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-      { 'nvim-telescope/telescope-live-grep-args.nvim' },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
+    keys = {
+      { "<leader>ee", "<cmd>NvimTreeToggle<cr>", desc = "NvimTree" },
     },
-    config = function() require('plugins.telescope') end,
-  }
-
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-    config = function() require('plugins.nvim-treesitter') end,
-  }
-
-  use {
-    'lukas-reineke/indent-blankline.nvim',
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "nvim-telescope/telescope-ui-select.nvim",
+      "nvim-telescope/telescope-live-grep-args.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
     config = function()
-      require('indent_blankline').setup {
-        filetype = { 'python', 'yaml' }
-      }
+      require("plugins.telescope")
     end,
-  }
-
-  use {
-    'NvChad/nvim-colorizer.lua',
-    config = function() require('colorizer').setup({}) end,
-  }
-
-  use {
-    'lewis6991/gitsigns.nvim',
-    config = function() require('gitsigns').setup() end,
-  }
-
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
-  use {
-    'neovim/nvim-lspconfig',
-    requires = {
-      'mfussenegger/nvim-jdtls',
-      'jose-elias-alvarez/null-ls.nvim',
-      'jose-elias-alvarez/typescript.nvim',
-      'simrat39/rust-tools.nvim',
-    },
-    config = function() require('plugins.lspconfig') end,
-  }
-
-  use {
-    'kosayoda/nvim-lightbulb',
-    requires = 'antoinemadec/FixCursorHold.nvim',
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     config = function()
-      require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
+      require("plugins.nvim-treesitter")
     end,
-  }
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("indent_blankline").setup({
+        filetype = { "python", "yaml" },
+      })
+    end,
+  },
+  {
+    "NvChad/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({})
+    end,
+  },
 
-  use {
-    'j-hui/fidget.nvim',
-    config = function() require('fidget').setup() end,
-  }
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+    end,
+  },
 
-  use {
-    'stevearc/dressing.nvim',
-    config = function() require('dressing').setup() end,
-  }
+  { "williamboman/mason.nvim" },
+  { "williamboman/mason-lspconfig.nvim" },
 
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
-      'rafamadriz/friendly-snippets',
-      'onsails/lspkind.nvim',
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "mfussenegger/nvim-jdtls",
+      "jose-elias-alvarez/null-ls.nvim",
+      "jose-elias-alvarez/typescript.nvim",
+      "simrat39/rust-tools.nvim",
     },
-    config = function() require('plugins.cmp') end,
-  }
+    config = function()
+      require("plugins.lspconfig")
+    end,
+  },
 
-  use {
-    'akinsho/toggleterm.nvim',
-    config = function() require('plugins.toggleterm') end,
-  }
+  {
+    "kosayoda/nvim-lightbulb",
+    dependencies = "antoinemadec/FixCursorHold.nvim",
+    config = function()
+      require("nvim-lightbulb").setup({ autocmd = { enabled = true } })
+    end,
+  },
 
-  use {
-    'feline-nvim/feline.nvim',
-    config = function() require('plugins.feline') end,
-  }
+  {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup()
+    end,
+  },
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if Packer_bootstrap then
-    require('packer').sync()
-  end
+  {
+    "stevearc/dressing.nvim",
+    config = function()
+      require("dressing").setup()
+    end,
+  },
 
-end)
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
+      "rafamadriz/friendly-snippets",
+      "onsails/lspkind.nvim",
+    },
+    config = function()
+      require("plugins.cmp")
+    end,
+  },
 
-require('settings')
-require('keymaps')
+  {
+    "akinsho/toggleterm.nvim",
+    config = function()
+      require("plugins.toggleterm")
+    end,
+  },
 
-if vim.fn.filereadable(vim.fn.stdpath 'config' .. '/lua/local.lua') == 1 then
-  require('local')
+  {
+    "feline-nvim/feline.nvim",
+    config = function()
+      require("plugins.feline")
+    end,
+  },
+})
+
+require("keymaps")
+
+if vim.fn.filereadable(vim.fn.stdpath("config") .. "/lua/local.lua") == 1 then
+  require("local")
 end
