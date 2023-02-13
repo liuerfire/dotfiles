@@ -6,7 +6,7 @@ require("mason-lspconfig").setup({
     "jdtls",
     "pyright",
     "rust_analyzer",
-    "sumneko_lua",
+    "lua_ls",
     "tsserver",
   },
   automatic_installation = true,
@@ -51,9 +51,10 @@ end
 local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
-    null_ls.builtins.diagnostics.mypy,
     null_ls.builtins.formatting.stylua,
-    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.black.with({
+      extra_args = { "-S", "-l", "120" },
+    }),
     null_ls.builtins.formatting.reorder_python_imports,
   },
 })
@@ -103,7 +104,7 @@ require("rust-tools").setup({
 -- Make runtime files discoverable to the server
 local runtime_path = vim.split(package.path, ";")
 
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
