@@ -18,6 +18,24 @@ require("settings")
 require("lazy").setup({
   { "Mofiqul/vscode.nvim" },
   { "Mofiqul/adwaita.nvim" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      require("catppuccin").setup({
+        -- flavour = "mocha", -- latte, frappe, macchiato, mocha
+        color_overrides = {
+          latte = {
+            base = "#ffffd7",
+            text = "#000000",
+          },
+          mocha = {
+            base = "#1e1e1e",
+          },
+        },
+      })
+    end,
+  },
 
   { "tpope/vim-fugitive" },
   { "editorconfig/editorconfig-vim" },
