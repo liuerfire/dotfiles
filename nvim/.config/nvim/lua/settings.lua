@@ -20,7 +20,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.completeopt = "menu,menuone,noselect"
-vim.opt.laststatus = 3
+vim.opt.laststatus = 2
 
 vim.wo.foldlevel = 99
 vim.wo.foldenable = true

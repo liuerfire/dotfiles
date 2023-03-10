@@ -17,6 +17,7 @@ require("nvim-treesitter.configs").setup({
     "sql",
     "typescript",
     "tsx",
+    "vue",
   },
   sync_install = false,
   highlight = {

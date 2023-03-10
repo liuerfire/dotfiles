@@ -18,12 +18,12 @@ require("settings")
 require("lazy").setup({
   { "Mofiqul/vscode.nvim" },
   { "Mofiqul/adwaita.nvim" },
+  { "robertmeta/nofrils" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
     config = function()
       require("catppuccin").setup({
-        -- flavour = "mocha", -- latte, frappe, macchiato, mocha
         color_overrides = {
           latte = {
             base = "#ffffd7",

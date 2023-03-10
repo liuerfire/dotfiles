@@ -55,7 +55,9 @@ null_ls.setup({
     null_ls.builtins.formatting.black.with({
       extra_args = { "-S", "-l", "120" },
     }),
-    null_ls.builtins.formatting.reorder_python_imports,
+    null_ls.builtins.formatting.isort.with({
+      extra_args = { "--sl" },
+    }),
   },
 })
 
