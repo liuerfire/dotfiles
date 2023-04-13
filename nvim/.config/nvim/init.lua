@@ -17,8 +17,8 @@ require("settings")
 
 require("lazy").setup({
   { "Mofiqul/vscode.nvim" },
-  { "Mofiqul/adwaita.nvim" },
   { "robertmeta/nofrils" },
+  { "savq/melange-nvim" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
