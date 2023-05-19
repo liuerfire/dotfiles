@@ -19,6 +19,7 @@ require("lazy").setup({
   { "Mofiqul/vscode.nvim" },
   { "robertmeta/nofrils" },
   { "savq/melange-nvim" },
+  { "projekt0n/github-nvim-theme" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -181,7 +182,7 @@ require("lazy").setup({
   },
 
   {
-    "feline-nvim/feline.nvim",
+    "freddiehaddad/feline.nvim",
     config = function()
       require("plugins.feline")
     end,
