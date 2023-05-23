@@ -20,23 +20,7 @@ require("lazy").setup({
   { "robertmeta/nofrils" },
   { "savq/melange-nvim" },
   { "projekt0n/github-nvim-theme" },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    config = function()
-      require("catppuccin").setup({
-        color_overrides = {
-          latte = {
-            base = "#ffffd7",
-            text = "#000000",
-          },
-          mocha = {
-            base = "#1e1e1e",
-          },
-        },
-      })
-    end,
-  },
+  { "catppuccin/nvim", name = "catppuccin" },
 
   { "tpope/vim-fugitive" },
   { "editorconfig/editorconfig-vim" },

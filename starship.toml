@@ -1,0 +1,35 @@
+[aws]
+disabled = true
+
+[[battery.display]]
+threshold = 90
+
+[character]
+success_symbol = '[➜](green)'
+error_symbol = '[➜](red)'
+
+[cmake]
+disabled = true
+
+[directory]
+fish_style_pwd_dir_length = 1
+truncation_length = 3
+truncate_to_repo = false
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[git_status]
+ahead = '⇡${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}'
+untracked = '?${count}'
+stashed = '\$${count}'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
+
+[python]
+symbol = " "
+
+[package]
+disabled = true
