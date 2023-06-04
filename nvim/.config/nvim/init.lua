@@ -16,10 +16,17 @@ vim.g.mapleader = " "
 require("settings")
 
 require("lazy").setup({
-  { "Mofiqul/vscode.nvim" },
+  {
+    "Mofiqul/vscode.nvim",
+    config = function()
+      require("vscode").setup({
+        color_overrides = {
+          vscTabCurrent = "#959695",
+        },
+      })
+    end,
+  },
   { "robertmeta/nofrils" },
-  { "savq/melange-nvim" },
-  { "projekt0n/github-nvim-theme" },
   { "catppuccin/nvim", name = "catppuccin" },
 
   { "tpope/vim-fugitive" },
@@ -127,16 +134,56 @@ require("lazy").setup({
   },
 
   {
-    "j-hui/fidget.nvim",
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
     config = function()
-      require("fidget").setup()
-    end,
-  },
-
-  {
-    "stevearc/dressing.nvim",
-    config = function()
-      require("dressing").setup()
+      require("noice").setup({
+        views = {
+          cmdline_popup = {
+            position = {
+              row = -2,
+              col = 6,
+            },
+          },
+          popupmenu = {
+            position = {
+              row = -5,
+              col = 5,
+            },
+          },
+        },
+        lsp = {
+          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        routes = {
+          {
+            filter = {
+              event = "msg_show",
+              kind = { "", "echo", "echomsg", "return_prompt", "search_count" },
+              ["not"] = {
+                find = "\n",
+              },
+            },
+            opts = { skip = true },
+          },
+        },
+        presets = {
+          bottom_search = false, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = true, -- add a border to hover docs and signature help
+        },
+      })
     end,
   },
 
@@ -144,7 +191,6 @@ require("lazy").setup({
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-cmdline",

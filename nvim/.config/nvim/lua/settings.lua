@@ -12,7 +12,6 @@ vim.opt.list = true
 vim.opt.listchars = "tab:⇢ ,eol:¬,trail:·,extends:↷,precedes:↶"
 vim.opt.showbreak = "↪"
 vim.opt.hidden = true
-vim.opt.lazyredraw = true
 vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 vim.opt.expandtab = true
