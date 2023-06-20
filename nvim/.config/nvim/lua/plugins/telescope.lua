@@ -8,8 +8,6 @@ telescope.setup({
       i = {
         ["<C-u>"] = false,
         ["<C-d>"] = false,
-        ["<ESC>"] = actions.close,
-        -- needed when in kitty. See: https://sw.kovidgoyal.net/kitty/keyboard-protocol/
         ["<C-[>"] = actions.close,
       },
     },

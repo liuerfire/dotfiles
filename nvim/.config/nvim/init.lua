@@ -168,10 +168,7 @@ require("lazy").setup({
           {
             filter = {
               event = "msg_show",
-              kind = { "", "echo", "echomsg", "return_prompt", "search_count" },
-              ["not"] = {
-                find = "\n",
-              },
+              kind = "",
             },
             opts = { skip = true },
           },
@@ -201,13 +198,6 @@ require("lazy").setup({
     },
     config = function()
       require("plugins.cmp")
-    end,
-  },
-
-  {
-    "akinsho/toggleterm.nvim",
-    config = function()
-      require("plugins.toggleterm")
     end,
   },
 
