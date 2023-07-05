@@ -69,13 +69,25 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local servers = { "clangd", "gopls", "pyright" }
+local servers = { "clangd", "gopls" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
     capabilities = capabilities,
   })
 end
+
+lspconfig.pyright.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  handlers = {
+    ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = false,
+      virtual_text = false,
+      signs = false,
+    }),
+  },
+})
 
 require("typescript").setup({
   server = {
@@ -202,6 +214,5 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "java",
   callback = function()
     require("jdtls").start_or_attach(jdtls_config)
-    require("jdtls.setup").add_commands()
   end,
 })
