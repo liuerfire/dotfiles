@@ -26,6 +26,7 @@ packages=( \
   jdk11-openjdk \
   jdk17-openjdk \
   kde-graphics-meta \
+  kimageformats \
   kitty \
   kubectx \
   linux-headers \

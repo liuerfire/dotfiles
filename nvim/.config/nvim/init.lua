@@ -20,6 +20,7 @@ require("lazy").setup({
     "Mofiqul/vscode.nvim",
     config = function()
       require("vscode").setup({
+        italic_comments = true,
         color_overrides = {
           vscTabCurrent = "#959695",
         },
@@ -117,7 +118,6 @@ require("lazy").setup({
     dependencies = {
       "mfussenegger/nvim-jdtls",
       "jose-elias-alvarez/null-ls.nvim",
-      "jose-elias-alvarez/typescript.nvim",
       "simrat39/rust-tools.nvim",
     },
     config = function()

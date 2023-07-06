@@ -59,6 +59,7 @@ null_ls.setup({
       extra_args = { "--sl" },
     }),
   },
+  on_attach = on_attach,
 })
 
 local lspconfig = require("lspconfig")
@@ -69,7 +70,7 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local servers = { "clangd", "gopls" }
+local servers = { "clangd", "gopls", "tsserver" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     on_attach = on_attach,
@@ -86,13 +87,6 @@ lspconfig.pyright.setup({
       virtual_text = false,
       signs = false,
     }),
-  },
-})
-
-require("typescript").setup({
-  server = {
-    on_attach = on_attach,
-    capabilities = capabilities,
   },
 })
 
