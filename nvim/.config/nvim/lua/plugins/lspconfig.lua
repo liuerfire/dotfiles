@@ -53,7 +53,7 @@ null_ls.setup({
   sources = {
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.black.with({
-      extra_args = { "-S", "-l", "120" },
+      extra_args = { "-l", "100" },
     }),
     null_ls.builtins.formatting.isort.with({
       extra_args = { "--sl" },

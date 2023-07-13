@@ -169,6 +169,7 @@ require("lazy").setup({
             filter = {
               event = "msg_show",
               kind = "",
+              find = "written",
             },
             opts = { skip = true },
           },
