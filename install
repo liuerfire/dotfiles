@@ -17,6 +17,7 @@ packages=( \
   exa \
   fd \
   flatpak \
+  fish \
   fzf \
   git-delta \
   go \
@@ -81,9 +82,15 @@ for name in ${packages[@]}; do
 done
 
 mkdir -p ~/.config/kitty
+mkdir -p ~/.config/fish
 mkdir -p ~/.config/nvim
 mkdir -p ~/.zsh/plugins
 mkdir -p ~/workspace
 mkdir -p ~/code
 
-stow git nvim tmux zsh kitty
+stow git nvim tmux zsh fish kitty
+
+fish() {
+  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+  fisher install PatrickF1/fzf.fish
+}

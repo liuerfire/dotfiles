@@ -28,9 +28,21 @@ require("lazy").setup({
     end,
   },
   { "robertmeta/nofrils" },
-  { "catppuccin/nvim", name = "catppuccin" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      require("catppuccin").setup({
+        color_overrides = {
+          mocha = {
+            base = "#1e1e1e",
+          },
+        },
+      })
+    end,
+  },
 
-  { "tpope/vim-fugitive" },
+  { "FabijanZulj/blame.nvim" },
   { "editorconfig/editorconfig-vim" },
   { "junegunn/vim-easy-align" },
 

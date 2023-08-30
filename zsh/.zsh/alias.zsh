@@ -1,4 +1,4 @@
-alias ls='exa'
+alias ls='eza'
 alias ip='ip -c=auto'
 alias v='nvim +FF'
 alias vi='/usr/bin/vim'
