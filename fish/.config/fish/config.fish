@@ -9,6 +9,7 @@ set -gx PAGER less -RFXM
 set -gx BAT_PAGER less -RXF
 set -gx GOPROXY https://goproxy.cn,direct
 set -gx BAT_THEME 'Visual Studio Dark+'
+set -gx https_proxy http://127.0.0.1:7890
 set -gx no_proxy localhost,127.0.0.1
 
 if test -n "$PYTHONPATH"
@@ -28,6 +29,8 @@ if status is-interactive
     alias cdtmp 'cd $(mktemp -d)'
     alias icat 'kitten icat'
 
+    alias mycli '~/workspace/tmp/venv/bin/mycli'
+
     abbr -a ip ip -c=auto
     abbr -a pacman-list-orphans pacman -Qtdq
     abbr -a pacman-pkg-info pacman -Q -i
@@ -42,5 +45,4 @@ if status is-interactive
     set -x GPG_TTY (tty)
 end
 
-starship init fish | source
 zoxide init fish | source

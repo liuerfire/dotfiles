@@ -28,6 +28,7 @@ require("lazy").setup({
     end,
   },
   { "robertmeta/nofrils" },
+  { "rose-pine/neovim", name = "rose-pine" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -103,10 +104,13 @@ require("lazy").setup({
   {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      require("indent_blankline").setup({
-        filetype = { "python", "yaml" },
+      require("ibl").setup({
+        scope = {
+          enabled = false,
+        },
       })
     end,
+    ft = { "python", "yaml" },
   },
   {
     "NvChad/nvim-colorizer.lua",
