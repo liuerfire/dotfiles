@@ -8,8 +8,8 @@ vim.keymap.set("n", "<leader>n", "<cmd>nohl<cr>")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
-vim.keymap.set("n", "<A-.>", "<cmd>tabn<cr>")
-vim.keymap.set("n", "<A-,>", "<cmd>tabp<cr>")
+vim.keymap.set("n", "<A-.>", "<cmd>bnext<cr>")
+vim.keymap.set("n", "<A-,>", "<cmd>bprevious<cr>")
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
