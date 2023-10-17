@@ -23,6 +23,7 @@ if status is-interactive
     alias vi /usr/bin/vim
     alias vim nvim
     alias v 'nvim +FF'
+    alias vimdiff 'nvim -d'
 
     alias docker-rm-dangling 'docker rmi $(docker images -f "dangling=true" -q) -f'
     alias kc kubectl

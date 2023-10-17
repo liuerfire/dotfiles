@@ -27,6 +27,7 @@ require("lazy").setup({
       })
     end,
   },
+  { "navarasu/onedark.nvim" },
   { "robertmeta/nofrils" },
   { "rose-pine/neovim", name = "rose-pine" },
   {
@@ -133,13 +134,14 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = {
       "mfussenegger/nvim-jdtls",
-      "jose-elias-alvarez/null-ls.nvim",
       "simrat39/rust-tools.nvim",
     },
     config = function()
       require("plugins.lspconfig")
     end,
   },
+
+  { "stevearc/conform.nvim" },
 
   {
     "kosayoda/nvim-lightbulb",

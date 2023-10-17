@@ -12,55 +12,47 @@ require("mason-lspconfig").setup({
   automatic_installation = true,
 })
 
-local home = os.getenv("HOME")
-
-local lsp_formatting = function(bufnr)
-  local buf = vim.api.nvim_get_current_buf()
-  local ft = vim.bo[buf].filetype
-  local have_nls = #require("null-ls.sources").get_available(ft, "NULL_LS_FORMATTING") > 0
-  vim.lsp.buf.format({
-    filter = function(client)
-      if have_nls then
-        return client.name == "null-ls"
-      end
-      return client.name ~= "null-ls"
-    end,
-    bufnr = bufnr,
-  })
-end
-
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local on_attach = function(client, bufnr)
-  vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-    vim.lsp.buf.format()
-  end, { desc = "Format current buffer with LSP" })
-
-  -- format on save if the lsp server supports formatting
-  if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      buffer = bufnr,
-      callback = function()
-        lsp_formatting(bufnr)
-      end,
-    })
-  end
-end
-
-local null_ls = require("null-ls")
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.formatting.black.with({
-      extra_args = { "-l", "100" },
-    }),
-    null_ls.builtins.formatting.isort.with({
-      extra_args = { "--sl" },
-    }),
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    python = { "isort", "black" },
   },
-  on_attach = on_attach,
+  format_on_save = function(bufnr)
+    if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+      return
+    end
+    return {
+      timeout_ms = 500,
+      lsp_fallback = true,
+    }
+  end,
+  formatters = {
+    isort = {
+      prepend_args = { "--sl" },
+    },
+  },
 })
+
+vim.api.nvim_create_user_command("FormatDisable", function(args)
+  if args.bang then
+    -- FormatDisable! will disable formatting just for this buffer
+    vim.b.disable_autoformat = true
+  else
+    vim.g.disable_autoformat = true
+  end
+end, {
+  desc = "Disable autoformat-on-save",
+  bang = true,
+})
+
+vim.api.nvim_create_user_command("FormatEnable", function()
+  vim.b.disable_autoformat = false
+  vim.g.disable_autoformat = false
+end, {
+  desc = "Re-enable autoformat-on-save",
+})
+
+local home = os.getenv("HOME")
 
 local lspconfig = require("lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -73,13 +65,11 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local servers = { "clangd", "gopls", "tsserver" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
-    on_attach = on_attach,
     capabilities = capabilities,
   })
 end
 
 lspconfig.pyright.setup({
-  on_attach = on_attach,
   capabilities = capabilities,
   handlers = {
     ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -97,7 +87,6 @@ require("rust-tools").setup({
     },
   },
   server = {
-    on_attach = on_attach,
     capabilities = capabilities,
     settings = {
       ["rust-analyzer"] = {
@@ -113,7 +102,6 @@ require("rust-tools").setup({
 local runtime_path = vim.split(package.path, ";")
 
 lspconfig.lua_ls.setup({
-  on_attach = on_attach,
   capabilities = capabilities,
   settings = {
     Lua = {
@@ -143,7 +131,6 @@ local jdtls_config = {
     -- mute; having progress reports is enough
     ["language/status"] = function() end,
   },
-  on_attach = on_attach,
   capabilities = capabilities,
   cmd = {
     "java",
