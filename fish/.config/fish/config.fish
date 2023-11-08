@@ -7,10 +7,6 @@ set -gx EDITOR nvim
 set -gx VISUAL $EDITOR
 set -gx PAGER less -RFXM
 set -gx BAT_PAGER less -RXF
-set -gx GOPROXY https://goproxy.cn,direct
-set -gx BAT_THEME 'Visual Studio Dark+'
-set -gx https_proxy http://127.0.0.1:7890
-set -gx no_proxy localhost,127.0.0.1
 
 if test -n "$PYTHONPATH"
     set -x PYTHONPATH '/usr/lib/python3.10/site-packages/pdm/pep582' $PYTHONPATH
@@ -47,3 +43,7 @@ if status is-interactive
 end
 
 zoxide init fish | source
+
+if test -f ~/.fish_private
+  source ~/.fish_private
+end
