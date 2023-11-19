@@ -27,9 +27,6 @@ require("lazy").setup({
       })
     end,
   },
-  { "navarasu/onedark.nvim" },
-  { "robertmeta/nofrils" },
-  { "rose-pine/neovim", name = "rose-pine" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -48,11 +45,6 @@ require("lazy").setup({
   { "editorconfig/editorconfig-vim" },
   { "junegunn/vim-easy-align" },
 
-  { "nathangrigg/vim-beancount" },
-  { "google/vim-jsonnet" },
-  { "hashivim/vim-terraform" },
-  { "lifepillar/pgsql.vim" },
-
   {
     "kylechui/nvim-surround",
     config = function()
@@ -61,9 +53,20 @@ require("lazy").setup({
   },
 
   {
-    "echasnovski/mini.comment",
+    "echasnovski/mini.nvim",
+    version = false,
     config = function()
-      require("mini.comment").setup({})
+      require("mini.comment").setup()
+      require("mini.indentscope").setup()
+      require("mini.tabline").setup()
+      require("mini.trailspace").setup()
+      require("mini.statusline").setup()
+      local hipatterns = require("mini.hipatterns")
+      hipatterns.setup({
+        highlighters = {
+          hex_color = hipatterns.gen_highlighter.hex_color(),
+        },
+      })
     end,
   },
   {
@@ -102,23 +105,6 @@ require("lazy").setup({
       require("plugins.nvim-treesitter")
     end,
   },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    config = function()
-      require("ibl").setup({
-        scope = {
-          enabled = false,
-        },
-      })
-    end,
-    ft = { "python", "yaml" },
-  },
-  {
-    "NvChad/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup({})
-    end,
-  },
 
   {
     "lewis6991/gitsigns.nvim",
@@ -135,6 +121,7 @@ require("lazy").setup({
     dependencies = {
       "mfussenegger/nvim-jdtls",
       "simrat39/rust-tools.nvim",
+      "pmizio/typescript-tools.nvim",
     },
     config = function()
       require("plugins.lspconfig")
@@ -218,34 +205,6 @@ require("lazy").setup({
     config = function()
       require("plugins.cmp")
     end,
-  },
-
-  {
-    "freddiehaddad/feline.nvim",
-    config = function()
-      require("plugins.feline")
-    end,
-  },
-
-  {
-    "akinsho/bufferline.nvim",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    config = function()
-      require("bufferline").setup()
-    end,
-    keys = {
-      { "<leader>1", "<cmd>BufferLineGoToBuffer 1<cr>" },
-      { "<leader>2", "<cmd>BufferLineGoToBuffer 2<cr>" },
-      { "<leader>3", "<cmd>BufferLineGoToBuffer 3<cr>" },
-      { "<leader>4", "<cmd>BufferLineGoToBuffer 4<cr>" },
-      { "<leader>5", "<cmd>BufferLineGoToBuffer 5<cr>" },
-      { "<leader>6", "<cmd>BufferLineGoToBuffer 6<cr>" },
-      { "<leader>7", "<cmd>BufferLineGoToBuffer 7<cr>" },
-      { "<leader>8", "<cmd>BufferLineGoToBuffer 8<cr>" },
-      { "<leader>9", "<cmd>BufferLineGoToBuffer 9<cr>" },
-      { "<leader>$", "<cmd>BufferLineGoToBuffer -1<cr>" },
-    },
-    lazy = false,
   },
 })
 

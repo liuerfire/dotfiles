@@ -16,6 +16,7 @@ require("conform").setup({
   formatters_by_ft = {
     lua = { "stylua" },
     python = { "isort", "black" },
+    typescript = { "prettier" },
   },
   format_on_save = function(bufnr)
     if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
@@ -52,6 +53,8 @@ end, {
   desc = "Re-enable autoformat-on-save",
 })
 
+require("typescript-tools").setup({})
+
 local home = os.getenv("HOME")
 
 local lspconfig = require("lspconfig")
@@ -62,7 +65,7 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local servers = { "clangd", "gopls", "tsserver" }
+local servers = { "clangd", "gopls" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     capabilities = capabilities,
@@ -197,3 +200,14 @@ vim.api.nvim_create_autocmd("FileType", {
     require("jdtls").start_or_attach(jdtls_config)
   end,
 })
+
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+vim.keymap.set("n", "gxd", "<cmd>split <bar> lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gvd", "<cmd>vsplit <bar> lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gtd", "<cmd>tab split | lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gD", vim.lsp.buf.type_definition)
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
