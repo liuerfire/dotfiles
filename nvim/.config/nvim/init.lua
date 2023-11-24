@@ -27,40 +27,19 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    config = function()
-      require("catppuccin").setup({
-        color_overrides = {
-          mocha = {
-            base = "#1e1e1e",
-          },
-        },
-      })
-    end,
-  },
+  { "catppuccin/nvim", name = "catppuccin" },
 
   { "FabijanZulj/blame.nvim" },
   { "editorconfig/editorconfig-vim" },
-  { "junegunn/vim-easy-align" },
-
-  {
-    "kylechui/nvim-surround",
-    config = function()
-      require("nvim-surround").setup()
-    end,
-  },
 
   {
     "echasnovski/mini.nvim",
     version = false,
     config = function()
       require("mini.comment").setup()
-      require("mini.indentscope").setup()
-      require("mini.tabline").setup()
       require("mini.trailspace").setup()
       require("mini.statusline").setup()
+      require("mini.align").setup()
       local hipatterns = require("mini.hipatterns")
       hipatterns.setup({
         highlighters = {
@@ -121,7 +100,6 @@ require("lazy").setup({
     dependencies = {
       "mfussenegger/nvim-jdtls",
       "simrat39/rust-tools.nvim",
-      "pmizio/typescript-tools.nvim",
     },
     config = function()
       require("plugins.lspconfig")
@@ -129,14 +107,6 @@ require("lazy").setup({
   },
 
   { "stevearc/conform.nvim" },
-
-  {
-    "kosayoda/nvim-lightbulb",
-    dependencies = "antoinemadec/FixCursorHold.nvim",
-    config = function()
-      require("nvim-lightbulb").setup({ autocmd = { enabled = true } })
-    end,
-  },
 
   {
     "folke/noice.nvim",

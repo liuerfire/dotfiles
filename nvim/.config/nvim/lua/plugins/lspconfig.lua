@@ -53,8 +53,6 @@ end, {
   desc = "Re-enable autoformat-on-save",
 })
 
-require("typescript-tools").setup({})
-
 local home = os.getenv("HOME")
 
 local lspconfig = require("lspconfig")
@@ -65,23 +63,12 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local servers = { "clangd", "gopls" }
+local servers = { "clangd", "gopls", "pyright", "tsserver" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     capabilities = capabilities,
   })
 end
-
-lspconfig.pyright.setup({
-  capabilities = capabilities,
-  handlers = {
-    ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = false,
-      virtual_text = false,
-      signs = false,
-    }),
-  },
-})
 
 require("rust-tools").setup({
   tools = {

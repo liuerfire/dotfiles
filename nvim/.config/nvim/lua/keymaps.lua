@@ -10,6 +10,8 @@ vim.keymap.set("n", "k", "gk")
 
 vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>")
 vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>")
+vim.keymap.set("n", "<A-.>", "<cmd>tabnext<cr>")
+vim.keymap.set("n", "<A-,>", "<cmd>tabprevious<cr>")
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
