@@ -1,3 +1,104 @@
+vim.opt.termguicolors = true
+vim.opt.mouse = "n"
+vim.opt.swapfile = false
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.showmatch = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.list = true
+vim.opt.listchars = "tab:⇢ ,eol:¬,trail:·,extends:↷,precedes:↶"
+vim.opt.showbreak = "↪"
+vim.opt.hidden = true
+vim.opt.inccommand = "split"
+vim.opt.cursorline = true
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.smartindent = true
+vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.laststatus = 2
+
+vim.wo.foldlevel = 99
+vim.wo.foldenable = true
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  desc = "Highlight on yank",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go,make,gitconfig",
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.expandtab = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "c,cpp,java",
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.expandtab = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  command = [[if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif]],
+  desc = "jump to the last position",
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  command = [[ set fo-=c fo-=r fo-=o ]],
+  desc = "do not auto commenting new lines",
+})
+
+vim.g.mapleader = " "
+vim.keymap.set("", "<Space>", "<nop>")
+
+-- Get rid of annoying ex keybind
+vim.keymap.set("", "Q", "<nop>")
+
+vim.keymap.set("n", "<leader>n", "<cmd>nohl<cr>")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+
+vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>")
+vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>")
+vim.keymap.set("n", "<A-.>", "<cmd>tabnext<cr>")
+vim.keymap.set("n", "<A-,>", "<cmd>tabprevious<cr>")
+
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("i", "<C-a>", "<Home>")
+vim.keymap.set("i", "<C-e>", "<End>")
+vim.keymap.set("i", "<C-f>", "<Right>")
+vim.keymap.set("i", "<C-b>", "<Left>")
+
+vim.keymap.set("n", "<leader>p", '"+p')
+vim.keymap.set("n", "<leader>P", '"+P')
+vim.keymap.set("x", "<leader>p", '"+p')
+vim.keymap.set("v", "<leader>y", '"+y')
+vim.keymap.set("n", "Y", "y$")
+
+vim.api.nvim_create_user_command("CopyFilePath", function()
+  vim.fn.system("wl-copy", vim.fn.expand("%"))
+end, {})
+vim.api.nvim_create_user_command("CopyFileAbsPath", function()
+  vim.fn.system("wl-copy", vim.fn.expand("%:p"))
+end, {})
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -9,11 +110,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
-vim.keymap.set("", "<Space>", "<nop>")
-vim.g.mapleader = " "
-
-require("settings")
 
 require("lazy").setup({
   {
@@ -33,12 +129,50 @@ require("lazy").setup({
   { "editorconfig/editorconfig-vim" },
 
   {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+    },
+    config = function()
+      require("lualine").setup({
+        options = {
+          globalstatus = true,
+          -- section_separators = "",
+          component_separators = "",
+        },
+        sections = {
+          lualine_a = {
+            "mode",
+          },
+          lualine_c = {
+            { "filetype", icon_only = true, colored = false, padding = { left = 1 } },
+            { "filename", path = 1 },
+          },
+          lualine_x = {
+            {
+              require("noice").api.status.message.get,
+              cond = require("noice").api.status.message.has,
+            },
+            "searchcount",
+          },
+          lualine_y = { "fileformat" },
+          lualine_z = { "location" },
+        },
+        inactive_sections = {
+          lualine_c = {
+            { "filename", path = 2 },
+          },
+        },
+      })
+    end,
+  },
+
+  {
     "echasnovski/mini.nvim",
     version = false,
     config = function()
       require("mini.comment").setup()
       require("mini.trailspace").setup()
-      require("mini.statusline").setup()
       require("mini.align").setup()
       local hipatterns = require("mini.hipatterns")
       hipatterns.setup({
@@ -74,14 +208,109 @@ require("lazy").setup({
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
-      require("plugins.telescope")
+      local telescope = require("telescope")
+      local actions = require("telescope.actions")
+      local builtin = require("telescope.builtin")
+
+      telescope.setup({
+        defaults = {
+          layout_strategy = "vertical",
+          mappings = {
+            i = {
+              ["<C-u>"] = false,
+              ["<C-d>"] = false,
+              ["<C-[>"] = actions.close,
+            },
+          },
+          dynamic_preview_title = true,
+        },
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown({
+              -- even more opts
+            }),
+          },
+        },
+      })
+      telescope.load_extension("fzf")
+      telescope.load_extension("live_grep_args")
+      telescope.load_extension("ui-select")
+
+      vim.cmd([[
+  command! AF :Telescope find_files find_command=fd,--type,f,--hidden,--follow,--exclude,.git,--no-ignore previewer=false
+  command! FF :Telescope find_files find_command=fd,--type,f,--hidden,--follow,--exclude,.git, previewer=false
+]])
+      vim.keymap.set("n", "<leader>af", "<cmd>AF<CR>")
+      vim.keymap.set("n", "<leader>ff", "<cmd>FF<CR>")
+      vim.keymap.set("n", "<leader>bb", builtin.buffers)
+      vim.keymap.set("n", "<leader>rg", builtin.grep_string)
+      vim.keymap.set("n", "<leader>xx", builtin.diagnostics)
+      vim.keymap.set("n", "<leader>co", builtin.lsp_document_symbols)
+      vim.keymap.set("n", "<leader>xb", function()
+        builtin.diagnostics({ bufnr = 0 })
+      end)
+      vim.keymap.set("n", "gi", function()
+        builtin.lsp_implementations({ show_line = false })
+      end)
+      vim.keymap.set("n", "gr", function()
+        builtin.lsp_references({ show_line = false })
+      end)
+
+      vim.keymap.set("n", "<leader>/", require("telescope").extensions.live_grep_args.live_grep_args)
     end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      require("plugins.nvim-treesitter")
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "bash",
+          "c",
+          "comment",
+          "cpp",
+          "css",
+          "go",
+          "html",
+          "java",
+          "javascript",
+          "lua",
+          "make",
+          "markdown",
+          "markdown_inline",
+          "python",
+          "regex",
+          "ruby",
+          "rust",
+          "sql",
+          "typescript",
+          "tsx",
+          "vim",
+          "vue",
+        },
+        sync_install = false,
+        highlight = {
+          enable = true,
+        },
+        indent = {
+          enable = true,
+        },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+          },
+        },
+      })
     end,
   },
 
@@ -101,9 +330,6 @@ require("lazy").setup({
       "mfussenegger/nvim-jdtls",
       "simrat39/rust-tools.nvim",
     },
-    config = function()
-      require("plugins.lspconfig")
-    end,
   },
 
   { "stevearc/conform.nvim" },
@@ -143,8 +369,10 @@ require("lazy").setup({
           {
             filter = {
               event = "msg_show",
-              kind = "",
-              find = "written",
+              kind = { "", "echo", "echomsg", "return_prompt", "search_count" },
+              ["not"] = {
+                find = "\n",
+              },
             },
             opts = { skip = true },
           },
@@ -173,12 +401,293 @@ require("lazy").setup({
       "onsails/lspkind.nvim",
     },
     config = function()
-      require("plugins.cmp")
+      local cmp = require("cmp")
+      local lspkind = require("lspkind")
+
+      local has_words_before = function()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
+
+      local feedkey = function(key, mode)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+      end
+
+      cmp.setup({
+        preselect = cmp.PreselectMode.None,
+
+        -- load snippet support
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end,
+        },
+
+        -- key mapping
+        mapping = {
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-e>"] = cmp.mapping.close(),
+          ["<CR>"] = cmp.mapping.confirm({
+            select = false,
+          }),
+
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif vim.fn["vsnip#available"](1) == 1 then
+              feedkey("<Plug>(vsnip-expand-or-jump)", "")
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+            end
+          end, { "i", "s" }),
+
+          ["<S-Tab>"] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+              feedkey("<Plug>(vsnip-jump-prev)", "")
+            end
+          end, { "i", "s" }),
+        },
+
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "vsnip" },
+          { name = "path" },
+          { name = "buffer" },
+        }),
+
+        formatting = {
+          format = lspkind.cmp_format({
+            mode = "symbol_text",
+          }),
+        },
+      })
+
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline", keyword_length = 4 },
+        }),
+      })
     end,
   },
 })
 
-require("keymaps")
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    python = { "isort", "black" },
+    typescript = { "prettier" },
+  },
+  format_on_save = function(bufnr)
+    if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+      return
+    end
+    return {
+      timeout_ms = 500,
+      lsp_fallback = true,
+    }
+  end,
+  formatters = {
+    isort = {
+      prepend_args = { "--sl" },
+    },
+  },
+})
+
+vim.api.nvim_create_user_command("FormatDisable", function(args)
+  if args.bang then
+    -- FormatDisable! will disable formatting just for this buffer
+    vim.b.disable_autoformat = true
+  else
+    vim.g.disable_autoformat = true
+  end
+end, {
+  desc = "Disable autoformat-on-save",
+  bang = true,
+})
+
+vim.api.nvim_create_user_command("FormatEnable", function()
+  vim.b.disable_autoformat = false
+  vim.g.disable_autoformat = false
+end, {
+  desc = "Re-enable autoformat-on-save",
+})
+
+require("mason").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "clangd",
+    "gopls",
+    "jdtls",
+    "pyright",
+    "rust_analyzer",
+    "lua_ls",
+    "tsserver",
+  },
+  automatic_installation = true,
+})
+
+local home = os.getenv("HOME")
+
+local lspconfig = require("lspconfig")
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+local servers = { "clangd", "gopls", "pyright", "tsserver" }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup({
+    capabilities = capabilities,
+  })
+end
+
+require("rust-tools").setup({
+  tools = {
+    inlay_hints = {
+      auto = false,
+    },
+  },
+  server = {
+    capabilities = capabilities,
+    settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          allFeatures = true,
+        },
+      },
+    },
+  },
+})
+
+-- Make runtime files discoverable to the server
+local runtime_path = vim.split(package.path, ";")
+
+lspconfig.lua_ls.setup({
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+        version = "LuaJIT",
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
+    },
+  },
+})
+
+local workspace_folder = home .. "/workspace/.jdtls/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+
+local jdtls_config = {
+  init_options = {
+    extendedClientCapabilities = {
+      progressReportProvider = false,
+    },
+  },
+  handlers = {
+    -- mute; having progress reports is enough
+    ["language/status"] = function() end,
+  },
+  capabilities = capabilities,
+  cmd = {
+    "java",
+    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+    "-Dosgi.bundles.defaultStartLevel=4",
+    "-Declipse.product=org.eclipse.jdt.ls.core.product",
+    "-Dlog.protocol=true",
+    "-Dlog.level=ALL",
+    "-Xms1g",
+    "--add-modules=ALL-SYSTEM",
+    "--add-opens",
+    "java.base/java.util=ALL-UNNAMED",
+    "--add-opens",
+    "java.base/java.lang=ALL-UNNAMED",
+    "--add-opens",
+    "java.base/sun.nio.fs=ALL-UNNAMED",
+    "-javaagent:" .. home .. "/.local/share/nvim/mason/packages/jdtls/lombok.jar",
+    "-jar",
+    vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
+    "-configuration",
+    home .. "/.local/share/nvim/mason/packages/jdtls/config_linux",
+    "-data",
+    workspace_folder,
+  },
+  root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }),
+  settings = {
+    java = {
+      signatureHelp = { enabled = true },
+      contentProvider = { preferred = "fernflower" },
+      sources = {
+        organizeImports = {
+          starThreshold = 9999,
+          staticStarThreshold = 9999,
+        },
+      },
+      codeGeneration = {
+        toString = {
+          template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+        },
+        hashCodeEquals = {
+          useJava7Objects = true,
+        },
+        useBlocks = true,
+      },
+      configuration = {
+        runtimes = {
+          {
+            name = "JavaSE-11",
+            path = "/usr/lib/jvm/java-11-openjdk/",
+          },
+          {
+            name = "JavaSE-17",
+            path = "/usr/lib/jvm/java-17-openjdk/",
+          },
+        },
+      },
+    },
+  },
+}
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "java",
+  callback = function()
+    require("jdtls").start_or_attach(jdtls_config)
+  end,
+})
+
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+vim.keymap.set("n", "gxd", "<cmd>split <bar> lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gvd", "<cmd>vsplit <bar> lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gtd", "<cmd>tab split | lua vim.lsp.buf.definition()<cr>")
+vim.keymap.set("n", "gD", vim.lsp.buf.type_definition)
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
 
 if vim.fn.filereadable(vim.fn.stdpath("config") .. "/lua/local.lua") == 1 then
   require("local")
