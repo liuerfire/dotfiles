@@ -389,6 +389,21 @@ require("lazy").setup({
   },
 
   {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = function()
+      require("toggleterm").setup({
+        open_mapping = "<c-`>",
+        direction = "float",
+        shell = "fish",
+        winbar = {
+          enabled = true,
+        },
+      })
+    end,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
