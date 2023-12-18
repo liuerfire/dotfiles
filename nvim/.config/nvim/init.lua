@@ -19,7 +19,6 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.completeopt = "menu,menuone,noselect"
-vim.opt.laststatus = 2
 
 vim.wo.foldlevel = 99
 vim.wo.foldenable = true
@@ -91,6 +90,7 @@ vim.keymap.set("n", "<leader>P", '"+P')
 vim.keymap.set("x", "<leader>p", '"+p')
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "Y", "y$")
+vim.keymap.set("t", "<C-[>", "<C-\\><C-n>")
 
 vim.api.nvim_create_user_command("CopyFilePath", function()
   vim.fn.system("wl-copy", vim.fn.expand("%"))
@@ -124,6 +124,7 @@ require("lazy").setup({
     end,
   },
   { "catppuccin/nvim", name = "catppuccin" },
+  { "projekt0n/github-nvim-theme" },
 
   { "FabijanZulj/blame.nvim" },
   { "editorconfig/editorconfig-vim" },
@@ -136,8 +137,8 @@ require("lazy").setup({
     config = function()
       require("lualine").setup({
         options = {
-          globalstatus = true,
-          -- section_separators = "",
+          globalstatus = false,
+          section_separators = "",
           component_separators = "",
         },
         sections = {
@@ -393,7 +394,7 @@ require("lazy").setup({
     version = "*",
     config = function()
       require("toggleterm").setup({
-        open_mapping = "<c-`>",
+        open_mapping = "<A-\\>",
         direction = "float",
         shell = "fish",
         winbar = {

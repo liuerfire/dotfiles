@@ -8,14 +8,8 @@ set -gx VISUAL $EDITOR
 set -gx PAGER less -RFXM
 set -gx BAT_PAGER less -RXF
 
-if test -n "$PYTHONPATH"
-    set -x PYTHONPATH '/usr/lib/python3.10/site-packages/pdm/pep582' $PYTHONPATH
-else
-    set -x PYTHONPATH '/usr/lib/python3.10/site-packages/pdm/pep582'
-end
-
 if status is-interactive
-    alias ls eza
+    alias ls 'eza --icons'
     alias vi /usr/bin/vim
     alias vim nvim
     alias v 'nvim +FF'
@@ -25,8 +19,6 @@ if status is-interactive
     alias kc kubectl
     alias cdtmp 'cd $(mktemp -d)'
     alias icat 'kitten icat'
-
-    alias mycli '~/workspace/tmp/venv/bin/mycli'
 
     abbr -a ip ip -c=auto
     abbr -a pacman-list-orphans pacman -Qtdq
