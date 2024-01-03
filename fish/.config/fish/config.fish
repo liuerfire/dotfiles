@@ -35,6 +35,7 @@ if status is-interactive
 end
 
 zoxide init fish | source
+atuin init fish | source
 
 if test -f ~/.fish_private
   source ~/.fish_private
