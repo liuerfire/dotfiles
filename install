@@ -2,95 +2,14 @@
 
 set -eo pipefail
 
-packages=( \
-  ansible \
-  bash-completion \
-  bat \
-  bcc \
-  bcc-tools \
-  bear \
-  bind \
-  clang \
-  clash \
-  cmake \
-  dnsmasq \
-  exa \
-  fd \
-  flatpak \
-  fish \
-  fzf \
-  git-delta \
-  go \
-  helm \
-  hugo \
-  inetutils \
-  jdk11-openjdk \
-  jdk17-openjdk \
-  kde-graphics-meta \
-  kimageformats \
-  kitty \
-  kubectx \
-  linux-headers \
-  linux-tools \
-  man-db \
-  mpv \
-  mtr \
-  neovim \
-  networkmanager-openvpn \
-  nodejs \
-  noto-fonts-cjk \
-  noto-fonts-emoji \
-  noto-fonts-extra \
-  npm \
-  oath-toolkit \
-  obs-studio \
-  openbsd-netcat \
-  openssh \
-  openvpn \
-  p7zip \
-  python-bcc \
-  python-black \
-  python-isort \
-  python-pynvim \
-  ripgrep \
-  skopeo \
-  sof-firmware \
-  sshpass \
-  stow \
-  strace \
-  tcpdump \
-  tmux \
-  unzip \
-  vagrant \
-  wireshark-qt \
-  wl-clipboard \
-  xclip \
-  xorg-xrandr \
-  xorg-xwininfo \
-  yarn \
-  youtube-dl \
-  zoxide \
-  zsh \
-  zsh-completions \
-)
-
-echo "Installing packages..."
-for name in ${packages[@]}; do
-  if ! pacman -Qi $name &> /dev/null; then
-    yay -S --noconfirm $name
-  fi
-done
-
 mkdir -p ~/.config/kitty
-mkdir -p ~/.config/fish
 mkdir -p ~/.config/nvim
 mkdir -p ~/.zsh/plugins
 mkdir -p ~/workspace
 mkdir -p ~/code
 
-stow git nvim tmux zsh fish kitty
-
-fish() {
-  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-  fisher install PatrickF1/fzf.fish
-}
+ln -s $(pwd)/gitconfig ~/.gitconfig
+ln -s $(pwd)/gitignore_global ~/.gitignore_global
+ln -s $(pwd)/tmux.conf ~/.tmux.conf
+ln -s $(pwd)/nvim/init.lua ~/.config/nvim/init.lua
+ln -s $(pwd)/kitty.conf ~/.config/kitty/kitty.conf
