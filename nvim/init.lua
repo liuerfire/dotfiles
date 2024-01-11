@@ -125,6 +125,7 @@ require("lazy").setup({
   },
   { "catppuccin/nvim", name = "catppuccin" },
   { "projekt0n/github-nvim-theme" },
+  { "sainnhe/gruvbox-material" },
 
   { "FabijanZulj/blame.nvim" },
   { "editorconfig/editorconfig-vim" },
@@ -137,7 +138,7 @@ require("lazy").setup({
     config = function()
       require("lualine").setup({
         options = {
-          globalstatus = false,
+          globalstatus = true,
           section_separators = "",
           component_separators = "",
         },
@@ -329,7 +330,6 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = {
       "mfussenegger/nvim-jdtls",
-      "simrat39/rust-tools.nvim",
     },
   },
 
@@ -569,30 +569,12 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local servers = { "clangd", "gopls", "pyright", "tsserver" }
+local servers = { "clangd", "gopls", "pyright", "rust_analyzer", "tsserver" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     capabilities = capabilities,
   })
 end
-
-require("rust-tools").setup({
-  tools = {
-    inlay_hints = {
-      auto = false,
-    },
-  },
-  server = {
-    capabilities = capabilities,
-    settings = {
-      ["rust-analyzer"] = {
-        cargo = {
-          allFeatures = true,
-        },
-      },
-    },
-  },
-})
 
 -- Make runtime files discoverable to the server
 local runtime_path = vim.split(package.path, ";")
