@@ -11,17 +11,8 @@ vim.opt.smartcase = true
 vim.opt.list = true
 vim.opt.listchars = "tab:⇢ ,eol:¬,trail:·,extends:↷,precedes:↶"
 vim.opt.showbreak = "↪"
-vim.opt.hidden = true
 vim.opt.inccommand = "split"
-vim.opt.cursorline = true
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.smartindent = true
 vim.opt.completeopt = "menu,menuone,noselect"
-
-vim.wo.foldlevel = 99
-vim.wo.foldenable = true
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
@@ -41,7 +32,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "c,cpp,java",
+  pattern = "java",
   callback = function()
     vim.opt_local.shiftwidth = 4
     vim.opt_local.tabstop = 4
@@ -129,6 +120,7 @@ require("lazy").setup({
 
   { "FabijanZulj/blame.nvim" },
   { "editorconfig/editorconfig-vim" },
+  { "nmac427/guess-indent.nvim" },
 
   {
     "nvim-lualine/lualine.nvim",
@@ -298,9 +290,6 @@ require("lazy").setup({
         },
         sync_install = false,
         highlight = {
-          enable = true,
-        },
-        indent = {
           enable = true,
         },
         incremental_selection = {
