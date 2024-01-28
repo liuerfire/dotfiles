@@ -116,7 +116,6 @@ require("lazy").setup({
   },
   { "catppuccin/nvim", name = "catppuccin" },
   { "projekt0n/github-nvim-theme" },
-  { "sainnhe/gruvbox-material" },
 
   { "FabijanZulj/blame.nvim" },
   { "editorconfig/editorconfig-vim" },

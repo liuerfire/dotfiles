@@ -20,6 +20,10 @@ setopt AUTO_PARAM_SLASH          # If completed parameter is a directory, add a 
 unsetopt MENU_COMPLETE           # Do not autoselect the first completion entry.
 unsetopt FLOW_CONTROL            # Disable start/stop characters in shell editor.
 
+HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zhistory}"  # The path to the history file.
+HISTSIZE=1000000                   # The maximum number of events to save in the internal history
+SAVEHIST=1000000                   # The maximum number of events to save in the history file.
+
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:default' menu select=2
 
@@ -97,7 +101,7 @@ path=(
 typeset -gU cdpath fpath mailpath path
 
 eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
