@@ -8,8 +8,10 @@ mkdir -p ~/.zsh/plugins
 mkdir -p ~/workspace
 mkdir -p ~/code
 
-ln -s $(pwd)/gitconfig ~/.gitconfig
-ln -s $(pwd)/gitignore_global ~/.gitignore_global
-ln -s $(pwd)/tmux.conf ~/.tmux.conf
+ln -s $(pwd)/git/gitconfig ~/.gitconfig
+ln -s $(pwd)/git/gitignore_global ~/.gitignore_global
+ln -s $(pwd)/tmux/tmux.conf ~/.tmux.conf
 ln -s $(pwd)/nvim/init.lua ~/.config/nvim/init.lua
-ln -s $(pwd)/kitty.conf ~/.config/kitty/kitty.conf
+ln -s $(pwd)/kitty/kitty.conf ~/.config/kitty/kitty.conf
+ln -s $(pwd)/kitty/theme.conf ~/.config/kitty/theme.conf
+ln -s $(pwd)/zsh/zshrc ~/.zshrc

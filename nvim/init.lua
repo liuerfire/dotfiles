@@ -121,7 +121,12 @@ require("lazy").setup({
   { "catppuccin/nvim", name = "catppuccin" },
   { "projekt0n/github-nvim-theme" },
 
-  { "FabijanZulj/blame.nvim" },
+  {
+    "FabijanZulj/blame.nvim",
+    config = function()
+      require("blame").setup()
+    end,
+  },
   { "editorconfig/editorconfig-vim" },
   { "nmac427/guess-indent.nvim" },
 
