@@ -8,10 +8,28 @@ mkdir -p ~/.zsh/plugins
 mkdir -p ~/workspace
 mkdir -p ~/code
 
-ln -s $(pwd)/git/gitconfig ~/.gitconfig
-ln -s $(pwd)/git/gitignore_global ~/.gitignore_global
-ln -s $(pwd)/tmux/tmux.conf ~/.tmux.conf
-ln -s $(pwd)/nvim/init.lua ~/.config/nvim/init.lua
-ln -s $(pwd)/kitty/kitty.conf ~/.config/kitty/kitty.conf
-ln -s $(pwd)/kitty/theme.conf ~/.config/kitty/theme.conf
-ln -s $(pwd)/zsh/zshrc ~/.zshrc
+if [[ ! -f ~/.gitconfig ]]; then
+  ln -s $(pwd)/git/gitconfig ~/.gitconfig
+fi
+
+if [[ ! -f ~/.gitignore_global ]]; then
+  ln -s $(pwd)/git/gitignore_global ~/.gitignore_global
+fi
+
+if [[ ! -f ~/.tmux.conf ]]; then
+  ln -s $(pwd)/tmux/tmux.conf ~/.tmux.conf
+fi
+
+if [[ ! -f ~/.config/nvim/init.lua ]]; then
+  ln -s $(pwd)/nvim/init.lua ~/.config/nvim/init.lua
+fi
+
+if [[ ! -f ~/.config/kitty/kitty.conf ]]; then
+  ln -s $(pwd)/kitty/kitty.conf ~/.config/kitty/kitty.conf
+  ln -s $(pwd)/kitty/theme.conf ~/.config/kitty/theme.conf
+fi
+
+if [[ ! -f ~/.zshrc ]]; then
+  ln -s $(pwd)/zsh/zshrc ~/.zshrc
+fi
+
