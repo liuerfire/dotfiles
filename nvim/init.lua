@@ -396,7 +396,6 @@ require("lazy").setup({
       require("toggleterm").setup({
         open_mapping = "<A-\\>",
         direction = "float",
-        shell = "fish",
         winbar = {
           enabled = true,
         },
