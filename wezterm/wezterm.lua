@@ -1,15 +1,13 @@
 local wezterm = require("wezterm")
 
-local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
-local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_left_half_circle_thick
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_right_half_circle_thick
 
 local function get_dir(tab)
 	local cwd = tab.active_pane.current_working_dir.file_path
 	local home = os.getenv("HOME")
 
-	cwd = cwd:gsub(string.format("%%%s", home), "~")
-
-	return string.format(" %s", cwd)
+	return cwd:gsub(string.format("%%%s", home), "~")
 end
 
 local function get_process(tab)
@@ -58,7 +56,22 @@ return {
 	tab_bar_at_bottom = true,
 	default_cursor_style = "BlinkingBlock",
 	font = wezterm.font_with_fallback({
-		"Monaspace Neon",
+		{
+			family = "Monaspace Argon",
+			harfbuzz_features = {
+				"calt",
+				"liga",
+				"dlig",
+				"ss01",
+				"ss02",
+				"ss03",
+				"ss04",
+				"ss05",
+				"ss06",
+				"ss07",
+				"ss08",
+			},
+		},
 		"JetBrains Mono",
 	}),
 	exit_behavior = "Close",
@@ -82,16 +95,14 @@ return {
 			action = wezterm.action_callback(function(win, pane)
 				local mux_win = win:mux_window()
 				local idx = active_tab_index(mux_win)
-				-- wezterm.log_info('active_tab_idx: ', idx)
 				local tab = mux_win:spawn_tab({})
-				-- wezterm.log_info('movetab: ', idx)
 				win:perform_action(wezterm.action.MoveTab(idx + 1), pane)
 			end),
 		},
 		{
 			key = "t",
 			mods = "ALT|SHIFT",
-			action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }),
+			action = wezterm.action.SpawnCommandInNewTab({ domain = "DefaultDomain", cwd = "~" }),
 		},
 		{
 			key = "s",
