@@ -294,6 +294,7 @@ require("lazy").setup({
           "typescript",
           "tsx",
           "vim",
+          "vimdoc",
           "vue",
         },
         sync_install = false,
@@ -394,7 +395,8 @@ require("lazy").setup({
     version = "*",
     config = function()
       require("toggleterm").setup({
-        open_mapping = "<A-\\>",
+        open_mapping = "<leader>tt",
+        insert_mappings = false,
         direction = "float",
         winbar = {
           enabled = true,
