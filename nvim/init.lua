@@ -555,7 +555,7 @@ require("mason-lspconfig").setup({
     "pyright",
     "rust_analyzer",
     "lua_ls",
-    "tsserver",
+    "ts_ls",
   },
   automatic_installation = true,
 })
@@ -570,7 +570,7 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local servers = { "clangd", "gopls", "pyright", "rust_analyzer", "tsserver" }
+local servers = { "clangd", "gopls", "pyright", "rust_analyzer", "ts_ls" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
     capabilities = capabilities,
