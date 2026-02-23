@@ -4,7 +4,6 @@
 - Use `tmp/` (project-local) for intermediate files and comparison
   artifacts, not `/tmp`. This keeps outputs discoverable and
   project-scoped, and avoids requesting permissions for `/tmp`.
-- Follow AGENTS.md if the file exists in the project directory.
 
 ## SESSION.md
 
@@ -14,26 +13,6 @@ concise description of them to SESSION.md** to defer solving such
 incidental tasks until later. You do not need to fix them all straight
 away unless they block your progress; writing them down is often
 sufficient. **Do not write your accomplishments into this file.**
-
-# Git workflow
-
-Use the `commit-writer` skill, if available, to draft commit messages.
-It reads the current diff and produces a message following the
-conventions below.
-
-Make sure you use git mv to move any files that are already checked into
-git.
-
-When writing commit messages, ensure that you explain any non-obvious
-trade-offs we've made in the design or implementation.
-
-Wrap any prose (but not code) in the commit message to match git commit
-conventions, including the title. Also, follow semantic commit
-conventions for the commit title.
-
-When you refer to types or very short code snippets, place them in
-backticks. When you have a full line of code or more than one line of
-code, put them in indented code blocks.
 
 # Documentation preferences
 
@@ -62,7 +41,7 @@ Apply literate programming principles to make code self-documenting and maintain
    // ==============================================================================
    // Plugin Configuration Extraction
    // ==============================================================================
-   
+
    // First, we extract plugin metadata from Cargo.toml to determine
    // what files we need to build and where to put them.
    ```
