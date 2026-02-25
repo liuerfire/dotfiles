@@ -1,3 +1,76 @@
+# ==============================================================================
+# Plugins & Paths
+# ==============================================================================
+
+ZSH_PLUGIN_DIR="${ZSH_PLUGIN_DIR:-$HOME/.zsh/plugins}"
+mkdir -p "$ZSH_PLUGIN_DIR"
+
+# List of plugins to load
+# Format: "github_user/repo"
+plugins=(
+  "romkatv/powerlevel10k"
+  "zsh-users/zsh-autosuggestions"
+)
+
+# Clone plugins if missing and update fpath for completions
+for plugin in $plugins; do
+  plugin_name="${plugin#*/}"
+  plugin_dir="$ZSH_PLUGIN_DIR/$plugin_name"
+
+  if [[ ! -d "$plugin_dir" ]]; then
+    echo "Cloning $plugin..."
+    git clone --depth=1 "https://github.com/$plugin.git" "$plugin_dir"
+  fi
+
+  # Add completions to fpath before compinit
+  if [[ -d "$plugin_dir/src" ]]; then
+    fpath=("$plugin_dir/src" $fpath)
+  fi
+done
+
+# Ensure unique entries in path arrays
+typeset -gU cdpath fpath mailpath path
+
+path=(
+  $HOME/bin
+  $HOME/go/bin
+  $HOME/.cargo/bin
+  $path
+)
+
+export EDITOR="nvim"
+export BAT_PAGER="less -RXF"
+
+# ==============================================================================
+# Completion System
+# ==============================================================================
+
+# Completion Styles
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+zstyle ':completion:*' list-separator '-->'
+
+# Speed up compinit by using a cache file
+autoload -Uz compinit
+for dump in "${ZDOTDIR:-$HOME}/.zcompdump"(N.mh+24); do
+  compinit
+done
+compinit -C
+
+# ==============================================================================
+# Shell Options
+# ==============================================================================
+
 bindkey -e
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -20,50 +93,42 @@ setopt AUTO_PARAM_SLASH          # If completed parameter is a directory, add a 
 unsetopt MENU_COMPLETE           # Do not autoselect the first completion entry.
 unsetopt FLOW_CONTROL            # Disable start/stop characters in shell editor.
 
-HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zhistory}"  # The path to the history file.
-HISTSIZE=1000000                   # The maximum number of events to save in the internal history
-SAVEHIST=1000000                   # The maximum number of events to save in the history file.
-
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:default' menu select=2
-
-# Completing Groping
-zstyle ':completion:*:options' description 'yes'
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
-zstyle ':completion:*' group-name ''
-
-# Completing misc
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
-zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
-zstyle ':completion:*' use-cache true
-zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-
-# default: --
-zstyle ':completion:*' list-separator '-->'
-zstyle ':completion:*:manuals' separate-sections true
+HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zhistory}"
+HISTSIZE=1000000
+SAVEHIST=1000000
 
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 
-if [[ ! -d ~/.zsh/plugins/powerlevel10k ]]; then
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh/plugins/powerlevel10k
-fi
-source ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
+# ==============================================================================
+# Plugin Loading (Post-Completion)
+# ==============================================================================
 
-if [[ ! -d ~/.zsh/plugins/zsh-autosuggestions ]]; then
-  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
-fi
-source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+for plugin in $plugins; do
+  plugin_name="${plugin#*/}"
+  plugin_dir="$ZSH_PLUGIN_DIR/$plugin_name"
+
+  # Source the plugin
+  if [[ -f "$plugin_dir/$plugin_name.zsh" ]]; then
+    source "$plugin_dir/$plugin_name.zsh"
+  elif [[ -f "$plugin_dir/$plugin_name.zsh-theme" ]]; then
+    source "$plugin_dir/$plugin_name.zsh-theme"
+  elif [[ -f "$plugin_dir/$plugin_name.plugin.zsh" ]]; then
+    source "$plugin_dir/$plugin_name.plugin.zsh"
+  fi
+done
 
 function update-zsh-plugins {
-  cd ~/.zsh/plugins
-  find . -mindepth 1 -maxdepth 1 -type d -exec git --git-dir={}/.git --work-tree=$PWD/{} pull -v \;
+  for plugin_dir in "$ZSH_PLUGIN_DIR"/*(N/); do
+    echo "Updating ${plugin_dir:t}..."
+    git -C "$plugin_dir" pull --rebase
+  done
 }
 
+# ==============================================================================
+# Aliases & Tools
+# ==============================================================================
+
 alias icat='kitten icat'
-alias ls='eza'
 alias ip='ip -c=auto'
 alias v='nvim +FF'
 alias vi='/usr/bin/vim'
@@ -73,35 +138,38 @@ alias docker-rm-dangling='docker rmi $(docker images -f "dangling=true" -q) -f'
 alias kc='kubectl'
 alias cdtmp='cd $(mktemp -d)'
 
+# eza (better ls)
+if (( $+commands[eza] )); then
+  alias ls='eza --icons --group-directories-first'
+  alias ll='ls -lh'
+  alias la='ls -a'
+  alias lla='ls -lha'
+  alias lt='ls --tree'
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -lh'
+  alias la='ls -A'
+fi
+
+# Pacman aliases
 alias pacman-list-orphans='pacman -Qtdq'
 alias pacman-pkg-info='pacman -Q -i'
-# Removes packages and unneeded dependencies.
 alias pacx='sudo pacman --remove'
-# Removes packages, their configuration, and unneeded dependencies.
 alias pacX='sudo pacman --remove --nosave --recursive'
 
+# Kitty integration
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source ~/.zsh/kitty.zsh
 fi
 
-autoload -U compinit && compinit
-
+# Private settings
 [[ -s ~/.zsh_private ]] && source ~/.zsh_private
 
-export EDITOR="nvim"
-export BAT_PAGER="less -RXF"
-
-path=(
-  $HOME/bin
-  $HOME/go/bin
-  $HOME/.cargo/bin
-  $path
-)
-
-typeset -gU cdpath fpath mailpath path
-
+# External tool initializations
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# Powerlevel10k configuration
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
