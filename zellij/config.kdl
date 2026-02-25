@@ -4,7 +4,7 @@ default_layout "compact"
 
 
 keybinds {
-  normal {
+  normal clear-defaults=true {
     unbind "Ctrl p" "Ctrl n"
     bind "Alt t" { NewTab; SwitchToMode "Normal"; }
     bind "Alt [" { GoToPreviousTab; }
