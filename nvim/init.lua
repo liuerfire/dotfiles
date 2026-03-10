@@ -130,6 +130,16 @@ require("lazy").setup({
     priority = 1000,
     opts = {},
   },
+  {
+    "Mofiqul/adwaita.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    "Mofiqul/vscode.nvim",
+    lazy = false,
+    priority = 1000,
+  },
 
   {
     "echasnovski/mini.nvim",
@@ -162,7 +172,7 @@ require("lazy").setup({
             end
 
             return statusline.combine_groups({
-              { hl = mode_hl, strings = { mode } },
+              { hl = mode_hl,                  strings = { mode } },
               "%<",
               { hl = "MiniStatuslineFilename", strings = { filetype_icon, filename } },
               "%=",

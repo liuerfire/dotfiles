@@ -1,35 +1,84 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set -Eeuo pipefail
 
-mkdir -p ~/.config/kitty
-mkdir -p ~/.config/nvim
-mkdir -p ~/.zsh/plugins
-mkdir -p ~/workspace
-mkdir -p ~/code
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$SCRIPT_DIR"
 
-if [[ ! -f ~/.gitconfig ]]; then
-  ln -s $(pwd)/git/gitconfig ~/.gitconfig
-fi
+DIRECTORIES=(
+  "$HOME/.config/kitty"
+  "$HOME/.config/nvim"
+  "$HOME/.zsh/plugins"
+  "$HOME/workspace"
+  "$HOME/code"
+)
 
-if [[ ! -f ~/.gitignore_global ]]; then
-  ln -s $(pwd)/git/gitignore_global ~/.gitignore_global
-fi
+LINK_SPECS=(
+  "git/gitconfig:$HOME/.gitconfig"
+  "git/gitignore_global:$HOME/.gitignore_global"
+  "tmux/tmux.conf:$HOME/.tmux.conf"
+  "nvim/init.lua:$HOME/.config/nvim/init.lua"
+  "kitty/kitty.conf:$HOME/.config/kitty/kitty.conf"
+  "kitty/theme.conf:$HOME/.config/kitty/theme.conf"
+  "zsh/zshrc:$HOME/.zshrc"
+)
 
-if [[ ! -f ~/.tmux.conf ]]; then
-  ln -s $(pwd)/tmux/tmux.conf ~/.tmux.conf
-fi
+ensure_dir() {
+  local dir=$1
+  mkdir -p "$dir"
+}
 
-if [[ ! -f ~/.config/nvim/init.lua ]]; then
-  ln -s $(pwd)/nvim/init.lua ~/.config/nvim/init.lua
-fi
+die() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
 
-if [[ ! -f ~/.config/kitty/kitty.conf ]]; then
-  ln -s $(pwd)/kitty/kitty.conf ~/.config/kitty/kitty.conf
-  ln -s $(pwd)/kitty/theme.conf ~/.config/kitty/theme.conf
-fi
+ensure_source_exists() {
+  local source=$1
+  [[ -e "$source" ]] || die "source does not exist: $source"
+}
 
-if [[ ! -f ~/.zshrc ]]; then
-  ln -s $(pwd)/zsh/zshrc ~/.zshrc
-fi
+link_matches_source() {
+  local destination=$1
+  local expected_source=$2
 
+  [[ -L "$destination" ]] || return 1
+  [[ "$(readlink "$destination")" == "$expected_source" ]]
+}
+
+link_file() {
+  local source=$1
+  local destination=$2
+
+  ensure_source_exists "$source"
+
+  if [[ ! -e "$destination" && ! -L "$destination" ]]; then
+    ln -s "$source" "$destination"
+    printf 'linked %s -> %s\n' "$destination" "$source"
+    return
+  fi
+
+  if link_matches_source "$destination" "$source"; then
+    printf 'ok %s\n' "$destination"
+    return
+  fi
+
+  die "conflict at $destination (expected symlink to $source)"
+}
+
+main() {
+  local dir
+  for dir in "${DIRECTORIES[@]}"; do
+    ensure_dir "$dir"
+  done
+
+  local spec relative_source destination source
+  for spec in "${LINK_SPECS[@]}"; do
+    relative_source=${spec%%:*}
+    destination=${spec#*:}
+    source="${REPO_ROOT}/${relative_source}"
+    link_file "$source" "$destination"
+  done
+}
+
+main "$@"
